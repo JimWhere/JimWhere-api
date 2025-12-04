@@ -29,7 +29,7 @@ public class User extends BaseTimeEntity {
     private String userPhoneNumber;
 
     @Column(nullable = false)
-    private Long userBusinessNumber;
+    private String userBusinessNumber;
 
     // DB에는 VARCHAR("USER", "ADMIN") 로 저장됨
     @Enumerated(EnumType.STRING)
@@ -42,7 +42,7 @@ public class User extends BaseTimeEntity {
 
     // 기본값 세팅을 위한 유저생성 메서드
     public static User createUser(
-            String userId, String password, String userPhoneNumber, Long userBusinessNumber){
+            String userId, String password, String userPhoneNumber, String userBusinessNumber){
 
         return User.builder()
                 .userId(userId)

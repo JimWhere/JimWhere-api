@@ -9,5 +9,5 @@ public class UserCreateRequest {
     private String userId;
     private String password;
     private String userPhoneNumber;
-    private long userBusinessNumber;
+    private String userBusinessNumber;
 }
