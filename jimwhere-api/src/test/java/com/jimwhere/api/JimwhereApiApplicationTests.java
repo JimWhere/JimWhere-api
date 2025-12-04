@@ -1,4 +1,4 @@
-package com.jimwhere.jimwhereapi;
+package com.jimwhere.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
