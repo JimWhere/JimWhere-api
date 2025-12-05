@@ -20,13 +20,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/auth/signup")
-    public ResponseEntity<String> registUser(@RequestBody UserCreateRequest request){
-
-        userService.createUser(request);
-
-        return ResponseEntity.ok("회원가입 완료!");
-    }
 
     @GetMapping("/admin/users")
     public ResponseEntity<List<UserResponse>> getAllUsers(){
