@@ -2,11 +2,12 @@ server:
   port: 8081
 
 spring:
+  profiles:
+    include: secret     # application-secret 불러오는 부분
+
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/jim_where
-    username: jimWhere
-    password: jimWhere
 
   data:
     redis:
@@ -22,11 +23,6 @@ spring:
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
     open-in-view: false
-
-jwt:
-  secret: rA/4r9fDxHVDBouXITwYw4nxNgmgshmA72NnxVpassNqZ038QCTpWznTn1UbekAwApd6oOA3/wixuu+4i0g2ww==
-  access-expiration: 900000      # 15?
-  refresh-expiration: 3600000    # 1??
 
 auth:
   code:

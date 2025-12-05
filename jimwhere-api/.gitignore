@@ -36,6 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-
-### 설정 ###
+### 설정 / Secrets ###
 .env
+application-secret.yml
