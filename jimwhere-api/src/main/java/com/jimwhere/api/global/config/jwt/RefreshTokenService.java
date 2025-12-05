@@ -17,10 +17,10 @@ public class RefreshTokenService {
     private final StringRedisTemplate redisTemplate;
 
     private String getKey(String userId) {
-        return "RT:" + userId;
+        return "refresh:" + userId;
     }
 
-    /** RefreshToken 저장 */
+    // RefreshToken 저장
     @Transactional
     public void save(String userId, String refreshToken, long expireTimeMillis) {
 
@@ -35,13 +35,13 @@ public class RefreshTokenService {
         log.debug("RefreshToken 저장 완료. userId={}, expire={}ms", userId, expireTimeMillis);
     }
 
-    /** RefreshToken 유효성 검증 */
+    // RefreshToken 유효성 검증
     public boolean isValid(String userId, String refreshToken) {
         String stored = redisTemplate.opsForValue().get(getKey(userId));
         return stored != null && stored.equals(refreshToken);
     }
 
-    /** RefreshToken 삭제 */
+    // RefreshToken 삭제
     public void delete(String userId) {
         redisTemplate.delete(getKey(userId));
         log.debug("RefreshToken 삭제 완료. userId={}", userId);
