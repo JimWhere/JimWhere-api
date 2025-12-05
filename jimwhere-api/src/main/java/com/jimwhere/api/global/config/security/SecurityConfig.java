@@ -56,6 +56,9 @@ public class SecurityConfig {
                                 "/webjars/**"
                         ).permitAll()
 
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/user/**").hasRole("USER")
+
                         // API 보호
                         .anyRequest().authenticated()
                 )
