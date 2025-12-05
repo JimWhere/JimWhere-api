@@ -2,11 +2,15 @@ package com.jimwhere.api.user.service;
 
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.dto.reqeust.UserCreateRequest;
+import com.jimwhere.api.user.dto.response.UserResponse;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,4 +41,17 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+
+
+
+    public List<UserResponse> findAll() {
+
+        return userRepository.findAll()
+                .stream()
+                .map(UserResponse::from)
+                .toList();
+    }
+
+
 }
