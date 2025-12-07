@@ -35,7 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+*.code-workspace
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/extentions.json
 
+# Remote / server-side VS Code artifacts
+.vscode-server/
+.vscode-remote/
 
 ### 설정 ###
 .env
