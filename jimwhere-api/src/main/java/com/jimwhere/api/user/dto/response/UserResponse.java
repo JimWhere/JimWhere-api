@@ -15,6 +15,8 @@ public class UserResponse {
     private final String userId;
     private final String userPhonNumber;
     private final String userBusinessNumber;
+    private final String pName;
+    private final String startDt;
     private final UserRole role;
     private final UserStatus status;
 
@@ -24,6 +26,7 @@ public class UserResponse {
         return new UserResponse(
                 u.getUserCode(),u.getUserId(),
                 u.getUserPhoneNumber(),u.getUserBusinessNumber(),
+                u.getPName(),u.getStartDt(),
                 u.getRole(),u.getStatus()
         );
     }
