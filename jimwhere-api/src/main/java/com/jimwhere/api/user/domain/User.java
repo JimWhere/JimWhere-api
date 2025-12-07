@@ -28,9 +28,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String userPhoneNumber;
 
-    @Column(nullable = false)
-    private String userBusinessNumber;
-
     // DB에는 VARCHAR("USER", "ADMIN") 로 저장됨
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,16 +36,28 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserStatus status;
 
+    @Column(nullable = false)
+    private String userBusinessNumber;
+
+    @Column(name = "p_name", nullable = false)
+    private String pName; // 사업자대표명
+
+    @Column(name = "start_dt", nullable = false)
+    private String startDt; // 개업일자
+
 
     // 기본값 세팅을 위한 유저생성 메서드
     public static User createUser(
-            String userId, String password, String userPhoneNumber, String userBusinessNumber){
+            String userId, String password, String userPhoneNumber, String userBusinessNumber
+    ,String pName, String startDt){
 
         return User.builder()
                 .userId(userId)
                 .password(password)
                 .userPhoneNumber(userPhoneNumber)
                 .userBusinessNumber(userBusinessNumber)
+                .pName(pName)
+                .startDt(startDt)
                 .role(UserRole.USER)
                 .status(UserStatus.Y)
                 .build();

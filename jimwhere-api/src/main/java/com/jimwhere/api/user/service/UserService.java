@@ -1,22 +1,18 @@
 package com.jimwhere.api.user.service;
 
+import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.domain.UserRole;
 import com.jimwhere.api.user.domain.UserStatus;
-import com.jimwhere.api.user.dto.reqeust.UserCreateRequest;
 import com.jimwhere.api.user.dto.reqeust.UserUpdatePhoneRequest;
 import com.jimwhere.api.user.dto.reqeust.UserUpdateRequest;
 import com.jimwhere.api.user.dto.response.UserResponse;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +21,12 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public List<UserResponse> findAll() {
+    public PageResponse<UserResponse> findAll(Pageable pageable) {
 
-        return userRepository.findAll()
-                .stream()
-                .map(UserResponse::from)
-                .toList();
+        Page<UserResponse> page = userRepository.findAll(pageable)
+                .map(UserResponse::from);
+
+        return PageResponse.of(page);
     }
 
 

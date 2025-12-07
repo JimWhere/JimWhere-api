@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum ErrorCode {
-    //사용법 아래에 적어놓았습니다
-
     //1000번대는 공통 오류 처리
     UNAUTHORIZED_ACCESS("1000", "관리자만 접근 가능합니다", HttpStatus.UNAUTHORIZED),
     INVALID_REQUEST("1001", "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),

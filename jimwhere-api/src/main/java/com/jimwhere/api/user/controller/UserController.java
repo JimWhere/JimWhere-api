@@ -1,17 +1,16 @@
 package com.jimwhere.api.user.controller;
 
+import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.global.config.security.CustomUser;
-import com.jimwhere.api.user.dto.reqeust.UserCreateRequest;
 import com.jimwhere.api.user.dto.reqeust.UserUpdatePhoneRequest;
 import com.jimwhere.api.user.dto.reqeust.UserUpdateRequest;
 import com.jimwhere.api.user.dto.response.UserResponse;
 import com.jimwhere.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -22,9 +21,9 @@ public class UserController {
 
 
     @GetMapping("/admin/users")
-    public ResponseEntity<List<UserResponse>> getAllUsers(){
+    public ResponseEntity<PageResponse<UserResponse>> getAllUsers(Pageable pageable) {
 
-        List<UserResponse> response = userService.findAll();
+        PageResponse<UserResponse> response = userService.findAll(pageable);
 
         return ResponseEntity.ok(response);
     }

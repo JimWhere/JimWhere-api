@@ -1,7 +1,7 @@
 package com.jimwhere.api.auth.service;
 
 import com.jimwhere.api.user.domain.User;
-import com.jimwhere.api.user.dto.reqeust.UserCreateRequest;
+import com.jimwhere.api.auth.dto.UserCreateRequest;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +31,9 @@ public class UserAuthService {
                 request.getUserId(),
                 encodedPassword,
                 request.getUserPhoneNumber(),
-                request.getUserBusinessNumber()
+                request.getUserBusinessNumber(),
+                request.getPName(),
+                request.getStartDt()
         );
 
         userRepository.save(user);
