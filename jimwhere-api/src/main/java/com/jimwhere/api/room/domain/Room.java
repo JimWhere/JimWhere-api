@@ -1,6 +1,7 @@
 package com.jimwhere.api.room.domain;
 
-import com.jimwhere.api.global.model.BaseEntity;
+
+import com.jimwhere.api.global.model.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Room extends BaseEntity {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

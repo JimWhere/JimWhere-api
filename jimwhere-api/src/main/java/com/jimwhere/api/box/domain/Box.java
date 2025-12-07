@@ -1,6 +1,7 @@
 package com.jimwhere.api.box.domain;
 
-import com.jimwhere.api.global.model.BaseEntity;
+
+import com.jimwhere.api.global.model.BaseTimeEntity;
 import com.jimwhere.api.room.domain.Room;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Box extends BaseEntity {
+public class Box extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
