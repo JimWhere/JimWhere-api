@@ -1,14 +1,11 @@
 package com.jimwhere.api.room.domain;
 
-import com.jimwhere.api.global.model.BaseEntity;
+import com.jimwhere.api.global.model.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,28 +16,24 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Room extends BaseEntity {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_code")
     private Long roomCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_type_code", nullable = false)
-    private RoomType roomType;
+    @Column(name = "room_name", length = 50, nullable = false)
+    private String roomName;
 
-    @Column(name = "room_booking_status", length = 2)
-    private String roomBookingStatus = "N";
+    @Column(name = "room_width", nullable = false)
+    private Long roomWidth;
 
-    @Column(name = "room_booking_possible_status", length = 2)
-    private String roomBookingPossibleStatus = "N";
+    @Column(name = "room_length", nullable = false)
+    private Long roomLength;
 
-    @Column(name = "room_booking_start_at")
-    private java.time.LocalDateTime roomBookingStartAt;
-
-    @Column(name = "room_booking_end_at")
-    private java.time.LocalDateTime roomBookingEndAt;
+    @Column(name = "room_height", nullable = false)
+    private Long roomHeight;
 
     @Column(name = "user_code")
     private Long userCode;
