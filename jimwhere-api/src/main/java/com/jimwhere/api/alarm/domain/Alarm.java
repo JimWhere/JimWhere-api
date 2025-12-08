@@ -4,11 +4,15 @@ import com.jimwhere.api.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "alarm")
+@SQLDelete(sql = "UPDATE alarm SET is_deleted = 'Y' WHERE alarm_id = ?")
+@SQLRestriction("is_deleted = 'N'")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
