@@ -15,8 +15,10 @@ import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Builder
 @AllArgsConstructor
 public class AccessHistory extends BaseTimeEntity {
@@ -56,6 +58,17 @@ public class AccessHistory extends BaseTimeEntity {
         .user(user)
         .build();
   }
+
+
+    public void updateAccessSuccess(LocalDateTime time) {
+        this.accessedAt = time;
+        this.accessResult = AccessResult.Y;
+    }
+
+    public void updateVisitCode(String qrToken) {
+      this.visitCode = qrToken;
+    }
+
   /*public static AccessHistory createAccessHistoryBuilder(String visitorName,String visitPurpose,String storageItemName,Long shippingQuantity,LocalDateTime accessedAt,String storageArea,String visitCode,User user) {
     return  AccessHistory.builder()
         .visitorName(visitorName)
