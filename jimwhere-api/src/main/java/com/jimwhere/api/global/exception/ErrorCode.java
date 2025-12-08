@@ -16,7 +16,9 @@ public enum ErrorCode {
     INVALID_USER_ID("1002", "해당 사용자가 없습니다", HttpStatus.BAD_REQUEST),
     INVALID_ADMIN_ID("1003", "잘못된 관리자 ID입니다.", HttpStatus.BAD_REQUEST),
     INVALID_INCORRECT_FORMAT("1004","잘못된 형식입니다.", HttpStatus.BAD_REQUEST),
-    PASSWORD_NOT_MATCH("1005", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST); // Added for password change feature
+    PASSWORD_NOT_MATCH("1005", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+    INVALID_INPUT_FORMAT("1006", "잘못된 입력 형식입니다.", HttpStatus.BAD_REQUEST),
+    DUPLICATE_VALUE("1006", "중복된 값입니다.", HttpStatus.BAD_REQUEST); // Added for password change feature
 
 
     private final String code;

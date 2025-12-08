@@ -1,6 +1,8 @@
 package com.jimwhere.api.user.service;
 
 import com.jimwhere.api.global.comman.PageResponse;
+import com.jimwhere.api.global.exception.CustomException;
+import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.domain.UserRole;
 import com.jimwhere.api.user.domain.UserStatus;
@@ -32,15 +34,14 @@ public class UserService {
 
     public UserResponse findMyInfo(String username) {
 
-        User foundUser = userRepository.findByUserId(username).orElseThrow(() ->
-                new IllegalArgumentException("가입정보가 없습니다"));
-
+        User foundUser = userRepository.findByUserId(username).orElseThrow(
+                () -> new CustomException(ErrorCode.INVALID_USER_ID));
         return UserResponse.from(foundUser);
     }
 
     public UserResponse findUserByCode(long userCode) {
         User foundUser = userRepository.findById(userCode).orElseThrow(() ->
-                new IllegalArgumentException("가입정보가 없습니다"));
+                new CustomException(ErrorCode.INVALID_USER_ID));
 
         return UserResponse.from(foundUser);
     }
@@ -48,14 +49,14 @@ public class UserService {
     @Transactional
     public void updateUserPhoneNumber(String username, UserUpdatePhoneRequest request) {
         User foundUser = userRepository.findByUserId(username).orElseThrow(() ->
-                new IllegalArgumentException("가입정보가 없습니다"));
+                new CustomException(ErrorCode.INVALID_USER_ID));
         boolean foundPhoneNumber = userRepository.existsByUserPhoneNumber(request.getNewPhoneNumber());
 
         if (foundUser.getUserPhoneNumber().equals(request.getNewPhoneNumber())) {
-            throw new IllegalArgumentException("전화번호가 동일합니다");
+            throw new CustomException(ErrorCode.DUPLICATE_VALUE);
         }
         if (foundPhoneNumber) {
-            throw new IllegalArgumentException("이미 존재하는 번호입니다.");
+            throw new CustomException(ErrorCode.DUPLICATE_VALUE);
         }
 
         foundUser.updatePhone(request.getNewPhoneNumber());
@@ -64,7 +65,7 @@ public class UserService {
     @Transactional
     public void deactivateUser(String username) {
         User foundUser = userRepository.findByUserId(username).orElseThrow(() ->
-                new IllegalArgumentException("가입정보가 없습니다"));
+                new CustomException(ErrorCode.INVALID_USER_ID));
 
         foundUser.modifyUserStatus(UserStatus.N);
     }
@@ -75,15 +76,15 @@ public class UserService {
         String rawRole = request.getRole();
 
         if ("".equals(rawStatus) || "".equals(rawRole)) {
-            throw new IllegalArgumentException("빈 값은 허용되지 않습니다.");
+            throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT);
         }
 
         if (rawStatus == null && rawRole == null) {
-            throw new IllegalArgumentException("변경할 값이 하나 이상 필요합니다.");
+            throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT , "변경할 값을 입력해야 합니다");
         }
 
         User foundUser = userRepository.findById(userCode)
-                .orElseThrow(() -> new IllegalArgumentException("회원정보가 없습니다"));
+                .orElseThrow(() ->new CustomException(ErrorCode.INVALID_USER_ID));
 
 
         if (rawStatus != null) {
