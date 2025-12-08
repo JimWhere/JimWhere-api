@@ -27,6 +27,19 @@ public class Box extends BaseTimeEntity {
     @Column(name = "box_code")
     private Long boxCode;
 
+    // New: box_name (e.g. a1, b1, c1)
+    @Column(name = "box_name", length = 4, nullable = false)
+    private String boxName;
+
+    @Column(name = "box_width", nullable = false)
+    private Long boxWidth;
+
+    @Column(name = "box_length", nullable = false)
+    private Long boxLength;
+
+    @Column(name = "box_height", nullable = false)
+    private Long boxHeight;
+
     @Column(name = "box_possible_status", length = 2)
     private String boxPossibleStatus = "Y";
 
