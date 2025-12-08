@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Reservation")
+@Table(name = "reservation")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,6 +31,7 @@ public class Reservation extends BaseTimeEntity {
     @Column(name = "user_code", nullable = false)
     private Long userCode;
 
+    @Builder.Default
     @Column(name = "reservation_status", length = 10, nullable = false)
     private String reservationStatus = "PENDING";
 
@@ -40,13 +41,13 @@ public class Reservation extends BaseTimeEntity {
     @Column(name = "end_at", nullable = false)
     private LocalDateTime endAt;
 
-    @Column(name = "reservation_amount")
+    @Column(name = "reservation_amount", nullable = false)
     private Long reservationAmount;
 
     @Column(name = "room_code", nullable = false)
     private Long roomCode;
 
-    @Column(name = "room_type_code", nullable = false)
-    private Long roomTypeCode;
+    @Column(name = "order_id", length = 64, nullable = false)
+    private String orderId;
 
 }
