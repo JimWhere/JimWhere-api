@@ -18,7 +18,10 @@ public enum ErrorCode {
     INVALID_INCORRECT_FORMAT("1004","잘못된 형식입니다.", HttpStatus.BAD_REQUEST),
     PASSWORD_NOT_MATCH("1005", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     INVALID_INPUT_FORMAT("1006", "잘못된 입력 형식입니다.", HttpStatus.BAD_REQUEST),
-    DUPLICATE_VALUE("1006", "중복된 값입니다.", HttpStatus.BAD_REQUEST); // Added for password change feature
+    DUPLICATE_VALUE("1006", "중복된 값입니다.", HttpStatus.BAD_REQUEST),
+
+
+    INVALID_OR_EXPIRED_QR("2000" , "만료된 QR 정보입니다",HttpStatus.BAD_REQUEST); // Added for password change feature
 
 
     private final String code;
