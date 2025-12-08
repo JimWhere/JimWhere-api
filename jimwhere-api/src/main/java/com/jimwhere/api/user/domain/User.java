@@ -60,12 +60,11 @@ public class User extends BaseTimeEntity {
         this.userPhoneNumber = newPhoneNumber;
     }
 
-
     public void modifyUserStatus(UserStatus status) {
         this.status = status;
     }
-
     public void modifyUserRole(UserRole role) {
         this.role = role;
     }
+
 }
