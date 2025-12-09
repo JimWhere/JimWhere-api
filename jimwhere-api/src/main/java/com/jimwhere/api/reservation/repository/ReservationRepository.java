@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -20,4 +22,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Optional<Reservation> findByReservationCodeAndUser(Long reservationCode, User user);
 
     Page<Reservation> findByUserUserCode(Long userCode, Pageable pageable);
+
+    /* 내일 입주 예정 예약 찾기 (MOVE_IN_DUE) */
+    List<Reservation> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
+
+    /* 3일 뒤 만기인 예약 찾기 (EXPIRATION_D3) */
+    List<Reservation> findByEndAtBetween(LocalDateTime start, LocalDateTime end);
 }

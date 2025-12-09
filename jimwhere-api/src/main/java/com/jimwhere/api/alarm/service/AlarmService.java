@@ -7,6 +7,8 @@ import com.jimwhere.api.alarm.dto.AlarmCreateRequest;
 import com.jimwhere.api.alarm.factory.AlarmUrlFactory;
 import com.jimwhere.api.alarm.factory.AlarmMessageFactory;
 import com.jimwhere.api.alarm.repository.AlarmRepository;
+import com.jimwhere.api.global.exception.CustomException;
+import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,7 +78,7 @@ public class AlarmService {
     @Transactional
     public void markAsRead(Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new IllegalArgumentException("알람이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ALARM_NOT_FOUND));
         alarm.markAsRead();
     }
 
@@ -91,7 +93,7 @@ public class AlarmService {
     @Transactional
     public void delete(Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new IllegalArgumentException("알람이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ALARM_NOT_FOUND));
         alarm.softDelete();
     }
 
@@ -106,6 +108,6 @@ public class AlarmService {
     /* 유저 조회 (공통) */
     private User getUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_USER_ID));
     }
 }
