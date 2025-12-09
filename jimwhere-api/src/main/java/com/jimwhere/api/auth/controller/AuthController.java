@@ -35,11 +35,11 @@ public class AuthController {
     private final long REFRESH_TOKEN_EXPIRE = 1000 * 60 * 60; // 1시간
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registUser(@RequestBody UserCreateRequest request){
+    public ResponseEntity<ApiResponse<String>> registUser(@RequestBody UserCreateRequest request){
 
         userAuthService.createUser(request);
 
-        return ResponseEntity.ok("회원가입 완료!");
+        return ResponseEntity.ok(ApiResponse.success("회원가입 완료!"));
     }
 
 

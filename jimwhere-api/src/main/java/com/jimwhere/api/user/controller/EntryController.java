@@ -1,5 +1,6 @@
 package com.jimwhere.api.user.controller;
 
+import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.user.dto.reqeust.QrIssueRequest;
 import com.jimwhere.api.user.dto.reqeust.QrVerifyRequest;
 import com.jimwhere.api.user.dto.response.QrIssueResponse;
@@ -23,9 +24,9 @@ public class EntryController {
 
     // QR 인증
     @PostMapping("/verify")
-    public ResponseEntity<QrVerifyResponse> verifyQr(@RequestBody QrVerifyRequest req) {
+    public ResponseEntity<ApiResponse<QrVerifyResponse>> verifyQr(@RequestBody QrVerifyRequest req) {
         QrVerifyResponse response = entryAuthService.verify(req);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     // QR 미리보기 (브라우저에서 바로 보여주기)
