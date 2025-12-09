@@ -14,17 +14,18 @@ public class AlarmUrlFactory {
             case INQUIRY_ANSWER ->
                     "/api/v1/inquiries/" + targetId;
 
-            /* 입출고/재고이벤트(예: 입고 상세, 작업 내역 상세) */
+            /* 입출고/재고이벤트(예: 입고 상세, 작업 내역 상세)
+            * TODO : 실 주소 다시 넣어야함 */
             case ENTRY_EVENT ->
-                    "/api/v1/entries/" + targetId;
+                    "/api/v1/" + targetId;
 
             /* 입주일 도래 → 입주 예약 상세 */
             case MOVE_IN_DUE ->
-                    "/api/v1/reservations/" + targetId;
+                    "/api/v1/user/reservations/" + targetId;
 
-            /* 만기 3일 전 → 계약 상세 페이지 */
+            /* 만기 3일 전 → 입주 예약 상세 */
             case EXPIRATION_D3 ->
-                    "/api/v1/contracts/" + targetId;
+                    "/api/v1/user/reservations/" + targetId;
 
             default -> "/";
         };

@@ -31,7 +31,7 @@ public class AlarmMessageFactory {
                     "출입이 발생했습니다.";
 
             case MOVE_IN_DUE ->
-                    "입주 3일 전 입니다.";
+                    "입주일 입니다.";
 
             case EXPIRATION_D3 ->
                     "계약 만기 3일 전입니다. 퇴실을 준비하시거나 관리자에게 문의 바랍니다.";

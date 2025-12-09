@@ -3,9 +3,12 @@ package com.jimwhere.api.alarm.controller;
 import com.jimwhere.api.alarm.domain.Alarm;
 import com.jimwhere.api.alarm.domain.AlarmType;
 import com.jimwhere.api.alarm.service.AlarmService;
+import com.jimwhere.api.alarm.service.AlarmSseService;
 import com.jimwhere.api.global.model.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 
@@ -15,6 +18,13 @@ import java.util.List;
 public class AlarmController {
 
     private final AlarmService alarmService;
+    private final AlarmSseService alarmSseService;
+
+    /* 알람 SSE 스트림 연결 */
+    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter stream(@RequestParam Long userId) {
+        return alarmSseService.subscribe(userId);
+    }
 
     /* 전체 알람 목록 */
     @GetMapping("/list")
