@@ -13,4 +13,5 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 
   @EntityGraph(attributePaths = "user")
   Page<Inquiry> findByIsDeletedFalse(Pageable pageable);
+
 }

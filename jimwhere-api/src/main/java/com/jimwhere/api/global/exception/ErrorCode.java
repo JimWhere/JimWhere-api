@@ -22,8 +22,15 @@ public enum ErrorCode {
     ALARM_NOT_FOUND("1008", "존재하지 않는 알람입니다.", HttpStatus.NOT_FOUND),
     NULL_UNAUTHORIZED("1009","로그인 정보가 없습니다" ,HttpStatus.UNAUTHORIZED ),
 
-    INVALID_OR_EXPIRED_QR("2000" , "만료된 QR 정보입니다",HttpStatus.BAD_REQUEST);
-  
+    INVALID_OR_EXPIRED_QR("2000" , "만료된 QR 정보입니다",HttpStatus.BAD_REQUEST),
+
+  INOUT_HISTORY_NOT_FOUND("5002","입출고 기록을 찾을 수 없습니다.",HttpStatus.NOT_FOUND),
+  ACCESS_HISTORY_NOT_FOUND("5003","출입 기록을 찾을 수 없습니다.",HttpStatus.NOT_FOUND),
+  INQUIRY_NOT_FOUND("5004","문의를 찾을 수 없습니다.",HttpStatus.NOT_FOUND),
+  NOTICE_NOT_FOUND("5003","공지를 찾을 수 없습니다.",HttpStatus.NOT_FOUND),
+  BOX_NOT_FOUND("5001" , "잘못된 박스 ID입니다",HttpStatus.NOT_FOUND);
+
+
     private final String code;
     private final String message;
     private final HttpStatusCode httpStatusCode;

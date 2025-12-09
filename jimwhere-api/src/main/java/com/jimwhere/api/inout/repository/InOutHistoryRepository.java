@@ -26,4 +26,5 @@ public interface InOutHistoryRepository extends JpaRepository<InOutHistory, Long
     """)
   List<InOutDetailResponse> findDetailsByAccessHistory(@Param("accessHistory") AccessHistory history);
   Page<InOutHistory> findByAccessHistory_User(User user, Pageable pageable);
+  List<InOutHistory> findByAccessHistory_AccessHistoryCode(Long accessHistoryCode);
 }
