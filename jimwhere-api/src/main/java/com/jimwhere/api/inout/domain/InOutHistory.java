@@ -14,10 +14,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
+
 public class InOutHistory {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +38,7 @@ public class InOutHistory {
 
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name="box_code",nullable = false)
+  @JoinColumn(name="box_code",nullable = true)
   private Box box;
 
   @ManyToOne(fetch =FetchType.LAZY)
@@ -46,19 +49,30 @@ public class InOutHistory {
   public InOutHistory() {
 
   }
-  public InOutHistory createInOutHistory(
+  public static InOutHistory createInOutHistory(
       InOutType inOutType,
       String inOutName,
       Long inOutQuantity,
-      Box box,
-      AccessHistory accessHistory
+      Box box
   ){
     return InOutHistory.builder()
         .inOutType(inOutType)
         .inOutName(inOutName)
         .inOutQuantity(inOutQuantity)
         .box(box)
-        .accessHistory(accessHistory)
         .build();
+  }
+
+  public void updateInOutType(InOutType inOutType) {
+    this.inOutType = inOutType;
+  }
+  public void updateInOutName(String inOutName){
+    this.inOutName = inOutName;
+  }
+  public void updateInOutQuantity(Long inoutQuantity){
+    this.inOutQuantity = inOutQuantity;
+  }
+  public void setAccessHistory(AccessHistory accessHistory) {
+    this.accessHistory = accessHistory;
   }
 }
