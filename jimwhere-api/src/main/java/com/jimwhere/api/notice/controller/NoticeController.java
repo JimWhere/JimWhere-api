@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class NoticeController {
   private final NoticeService noticeService;
 
- // @PreAuthorize("hasAuthority('Role_USER')")
+
   @PostMapping("/admin/notice")
   public ResponseEntity<String> createNotice(@RequestBody CreateNoticeRequest request,
       @AuthenticationPrincipal CustomUser user) {

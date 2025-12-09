@@ -1,0 +1,20 @@
+package com.jimwhere.api.inout.dto.response;
+
+import com.jimwhere.api.inout.domain.InOutHistory;
+import com.jimwhere.api.inout.domain.InOutType;
+
+public record InOutHistoryResponse (
+    Long inOutHistoryCode,
+    InOutType inOutType,
+    String inOutName,
+    Long inOutQuantity
+  ) {
+  public static InOutHistoryResponse from(InOutHistory inoutHistory) {
+    return new InOutHistoryResponse(
+        inoutHistory.getInOutHistoryCode(),
+        inoutHistory.getInOutType(),
+        inoutHistory.getInOutName(),
+        inoutHistory.getInOutQuantity()
+    );
+  }
+}
