@@ -48,3 +48,11 @@ coolsms:
   api-key: ${COOLSMS_API_KEY}
   api-secret: ${COOLSMS_API_SECRET}
   from-number: ${COOLSMS_FROM_NUMBER}
+
+toss:
+  payments:
+    secret-key: ${TOSS_SECRET_KEY}
+    base-url: ${TOSS_BASE_URL}
+    client-key: ${TOSS_CLIENT_KEY}
+    success-url: ${TOSS_SUCCESS_URL}
+    fail-url: ${TOSS_FAIL_URL}
