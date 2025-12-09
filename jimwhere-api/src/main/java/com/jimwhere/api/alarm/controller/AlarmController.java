@@ -15,7 +15,7 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
-    /* 전체 알람 조회 */
+    /* 전체 알람 목록 */
     @GetMapping("/list")
     public List<Alarm> getAll(@RequestParam Long userId) {
         return alarmService.getAllAlarms(userId);
