@@ -22,10 +22,10 @@ public class ReservationAlarmScheduler {
     private final ReservationRepository reservationRepository;
     private final AlarmService alarmService;
 
-    /* 매일 00:00 - 내일 입주 예정 알람 생성 (MOVE_IN_DUE) */
+    /* 매일 00:00 - 오늘 입주 예정 알람 생성 (MOVE_IN_DUE) */
     @Scheduled(cron = "0 0 0 * * *")
     public void sendMoveInDueAlarms() {
-        LocalDate targetDate = LocalDate.now().plusDays(1);
+        LocalDate targetDate = LocalDate.now();
         LocalDateTime from = targetDate.atStartOfDay();
         LocalDateTime to = targetDate.atTime(23, 59, 59);
 
@@ -33,7 +33,7 @@ public class ReservationAlarmScheduler {
                 reservationRepository.findByStartAtBetween(from, to);
 
         if (reservations.isEmpty()) {
-            log.debug("대상 예약 없음: {}", targetDate);
+            log.debug("입주 예약 없음: {}", targetDate);
             return;
         }
 
@@ -60,7 +60,7 @@ public class ReservationAlarmScheduler {
                 reservationRepository.findByEndAtBetween(from, to);
 
         if (reservations.isEmpty()) {
-            log.debug("대상 예약 없음: {}", targetDate);
+            log.debug("만기 임박 예약 없음: {}", targetDate);
             return;
         }
 

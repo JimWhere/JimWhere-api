@@ -27,6 +27,7 @@ public class AlarmService {
 
     private final AlarmUrlFactory alarmUrlFactory;
     private final AlarmMessageFactory alarmMessageFactory;
+    private final AlarmSseService alarmSseService;
 
     /* 알람 생성 */
     @Transactional
@@ -47,7 +48,13 @@ public class AlarmService {
                 .isRead(IsRead.N)
                 .build();
 
-        return alarmRepository.save(alarm);
+        Alarm saved = alarmRepository.save(alarm);
+
+        /* SSE 실시간 전송 */
+        alarmSseService.sendAlarm(saved);
+
+
+        return saved;
     }
 
     /* 전체 알람 조회 */
