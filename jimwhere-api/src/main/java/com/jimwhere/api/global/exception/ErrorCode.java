@@ -20,7 +20,8 @@ public enum ErrorCode {
     INVALID_INPUT_FORMAT("1006", "잘못된 입력 형식입니다.", HttpStatus.BAD_REQUEST),
     DUPLICATE_VALUE("1007", "중복된 값입니다.", HttpStatus.BAD_REQUEST),
     INVALID_OR_EXPIRED_QR("2000" , "만료된 QR 정보입니다",HttpStatus.BAD_REQUEST),
-    NULL_UNAUTHORIZED("1009","로그인 정보가 없습니다" ,HttpStatus.UNAUTHORIZED );
+    ALARM_NOT_FOUND("1008", "존재하지 않는 알람입니다.", HttpStatus.NOT_FOUND),
+    NULL_UNAUTHORIZED("1009","로그인 정보가 없습니다" ,HttpStatus.UNAUTHORIZED ),
 
     ROOM_ALREADY_EXISTS("3000", "이미 존재하는 방 이름입니다.", HttpStatus.BAD_REQUEST),
     ROOM_NOT_FOUND("3001", "해당 방을 찾을수 없습니다.", HttpStatus.BAD_REQUEST);
