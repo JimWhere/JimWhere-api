@@ -101,4 +101,13 @@ public class JwtTokenProvider {
                 .getBody();
     }
 
+
+    // 예외 던지기
+    public void validateTokenOrThrow(String token) {
+        Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token);
+    }
+
 }

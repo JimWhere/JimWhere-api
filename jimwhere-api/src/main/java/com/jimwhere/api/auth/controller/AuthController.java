@@ -10,6 +10,7 @@ import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.auth.dto.UserCreateRequest;
 import com.jimwhere.api.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
