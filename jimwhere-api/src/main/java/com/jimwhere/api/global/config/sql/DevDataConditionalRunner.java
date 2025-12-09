@@ -1,4 +1,4 @@
-package com.jimwhere.api.config;
+package com.jimwhere.api.global.config.sql;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
