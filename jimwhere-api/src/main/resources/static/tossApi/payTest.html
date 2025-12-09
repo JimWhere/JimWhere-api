@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>Toss 결제 테스트</title>
+    <script src="https://js.tosspayments.com/v1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h1>Toss 결제 테스트 (유저 X)</h1>
+<button id="payTestButton">결제하기</button>
+
+<script>
+    const backendBaseUrl = 'http://localhost:8081/api/v1';
+
+    const payTestButton = document.getElementById('payTestButton');
+    payTestButton.addEventListener('click', handlePayClick);
+
+    async function handlePayClick() {
+        try {
+            // 결제 준비 요청
+            const response = await axios.post(`${backendBaseUrl}/payments/init`, {
+                amount: 10000,
+                orderName: '짐웨어 테스트 결제'
+            });
+
+            // ApiResponse<T> 구조: { success, data, errorCode, message, timestamp }
+            const responseBody = response.data;
+            const data = responseBody.data;
+
+            const clientKey = data.clientKey;
+            const orderId = data.orderId;
+            const amount = data.amount;
+            const orderName = data.orderName;
+            const successUrl = data.successUrl;
+            const failUrl = data.failUrl;
+
+            const tossPayments = TossPayments(clientKey);
+
+            // Toss 결제창 열기
+            tossPayments.requestPayment('CARD', {
+                amount,
+                orderId,
+                orderName,
+                successUrl,
+                failUrl
+            });
+        } catch (error) {
+            console.error('payment init error:', error);
+            alert('결제 시작 중 오류가 발생했습니다.');
+        }
+    }
+</script>
+</body>
+</html>
