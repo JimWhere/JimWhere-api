@@ -11,7 +11,7 @@
 <button id="payTestButton">결제하기</button>
 
 <script>
-    const backendBaseUrl = 'http://localhost:8081/api/v1';
+    const backendBaseUrl = 'http://localhost:8081/api/v1/user';
 
     const payTestButton = document.getElementById('payTestButton');
     payTestButton.addEventListener('click', handlePayClick);
@@ -20,8 +20,7 @@
         try {
             // 결제 준비 요청
             const response = await axios.post(`${backendBaseUrl}/payments/init`, {
-                amount: 10000,
-                orderName: '짐웨어 테스트 결제'
+                reservationCode : 1
             });
 
             // ApiResponse<T> 구조: { success, data, errorCode, message, timestamp }
