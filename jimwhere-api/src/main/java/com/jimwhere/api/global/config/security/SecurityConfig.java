@@ -46,6 +46,21 @@ public class SecurityConfig {
 //                        .requestMatchers("/**").permitAll()
                         // 로그인/회원가입 공개
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers(
+                                        "/api/v1/access/**",
+                                        "/api/v1/alarms/**",
+                                        "/api/v1/room/**",
+                                        "/api/v1/intout/**",
+                                        "/api/v1/inquiry/**",
+                                        "/api/v1/notice/**",
+                                        "/api/v1/payments/**",
+                                        "/api/v1/paymentHistories/**",
+                                        "/api/v1/reservations/**",
+                                        "/api/v1/room/**",
+                                        "/api/v1/entry/**",
+                                        "/api/v1/users/**"
+
+                                ).permitAll()
 
                         // Swagger 공개
                         .requestMatchers(

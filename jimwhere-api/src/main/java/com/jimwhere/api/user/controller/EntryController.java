@@ -14,7 +14,7 @@ import java.util.Base64;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/entry")
+@RequestMapping("/api/v1/entry")
 public class EntryController {
 
     private final EntryAuthService entryAuthService;
