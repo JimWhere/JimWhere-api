@@ -13,21 +13,35 @@
     const backendBaseUrl = 'http://localhost:8081/api/v1/user';
     const paySuccessResult = document.getElementById('paySuccessResult');
 
-    // Toss가 넘겨준 쿼리스트링 파싱
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentKey = urlParams.get('paymentKey');
-    const orderId = urlParams.get('orderId');
-    const amount = Number(urlParams.get('amount'));
+    const token = localStorage.getItem('accessToken');
 
-    confirmPayment();
+    if (!token) {
+        paySuccessResult.textContent = '토큰이 없습니다. 먼저 로그인 후 다시 시도해주세요.';
+    } else {
+        // Toss가 넘겨준 쿼리스트링
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentKey = urlParams.get('paymentKey');
+        const orderId = urlParams.get('orderId');
+        const amount = Number(urlParams.get('amount'));
 
-    async function confirmPayment() {
+        confirmPayment(paymentKey, orderId, amount);
+    }
+
+    async function confirmPayment(paymentKey, orderId, amount) {
         try {
-            const response = await axios.post(`${backendBaseUrl}/payments/success`, {
-                paymentKey,
-                orderId,
-                amount
-            });
+            const response = await axios.post(
+                `${backendBaseUrl}/payments/success`,
+                {
+                    paymentKey,
+                    orderId,
+                    amount
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
 
             paySuccessResult.textContent = JSON.stringify(response.data, null, 2);
         } catch (error) {
