@@ -30,38 +30,38 @@ INSERT INTO room (user_code, room_name, room_width, room_length, room_height, cr
 -- Sample boxes: assign boxes per room type with content/counts (A:16, B:8, C:4)
 -- A-type (a1..a16) distributed round-robin to room_code 1..5
 INSERT INTO box (box_name, box_possible_status, box_content, box_current_count, box_width, box_length, box_height, created_at, updated_at, room_code) VALUES
-('a1', 'Y', NULL, 70, 80, 100, 60, NOW(), NULL, 1),
-('a2', 'Y', NULL, 80, 80, 100, 60, NOW(), NULL, 2),
-('a3', 'N', '은반지', 50, 80, 100, 60, NOW(), NOW(), 3),
-('a4', 'N', '금반지', 40, 80, 100, 60, NOW(), NOW(), 4),
-('b1', 'N', '무테팔찌', 34, 100, 120, 80, NOW(), NOW(), 5),
-('b2', 'N', '체인팔찌', 20, 100, 120, 80, NOW(), NOW(), 1),
-('b3', 'N', '이어링', 14, 100, 120, 80, NOW(), NOW(), 2),
-('b4', 'N', '드롭이어링', 16, 100, 120, 80, NOW(), NOW(), 3),
-('c1', 'Y', NULL, 10, 150, 200, 120, NOW(), NULL, 4),
-('c2', 'Y', NULL, 5, 150, 200, 120, NOW(), NULL, 5),
-('c3', 'N', '은반지', 25, 150, 200, 120, NOW(), NOW(), 1),
-('c4', 'N', '금반지', 12, 150, 200, 120, NOW(), NOW(), 2),
-('d1', 'N', '무테팔찌', 7, 80, 100, 60, NOW(), NOW(), 3),
-('d2', 'N', '체인팔찌', 3, 80, 100, 60, NOW(), NOW(), 4),
-('d3', 'N', '이어링', 2, 80, 100, 60, NOW(), NOW(), 5),
-('d4', 'N', '드롭이어링', 1, 80, 100, 60, NOW(), NOW(), 1),
+('a1', 'Y', NULL, 70, 100, 100, 100, NOW(), NULL, 1),
+('a2', 'Y', NULL, 80, 100, 100, 100, NOW(), NULL, 2),
+('a3', 'N', '은반지', 50, 100, 100, 100, NOW(), NOW(), 3),
+('a4', 'N', '금반지', 40, 100, 100, 100, NOW(), NOW(), 4),
+('a5', 'N', '무테팔찌', 34, 100, 100, 100, NOW(), NOW(), 5),
+('a6', 'N', '체인팔찌', 20, 100, 100, 100, NOW(), NOW(), 1),
+('a7', 'N', '이어링', 14, 100, 100, 100, NOW(), NOW(), 2),
+('a8', 'N', '드롭이어링', 16, 100, 100, 100, NOW(), NOW(), 3),
+('a9', 'Y', NULL, 10, 100, 100, 100, NOW(), NULL, 4),
+('a10', 'Y', NULL, 5, 100, 100, 100, NOW(), NULL, 5),
+('a11', 'N', '은반지', 25, 100, 100, 100, NOW(), NOW(), 1),
+('a12', 'N', '금반지', 12, 100, 100, 100, NOW(), NOW(), 2),
+('a13', 'N', '무테팔찌', 7, 100, 100, 100, NOW(), NOW(), 3),
+('a14', 'N', '체인팔찌', 3, 100, 100, 100, NOW(), NOW(), 4),
+('a15', 'N', '이어링', 2, 100, 100, 100, NOW(), NOW(), 5),
+('a16', 'N', '드롭이어링', 1, 100, 100, 100, NOW(), NOW(), 1),
 
 -- B-type (b1..b8) distributed to room_code 6..10
-('a1', 'Y', NULL, 4, 80, 100, 60, NOW(), NULL, 6),
-('a2', 'Y', NULL, 3, 80, 100, 60, NOW(), NULL, 7),
-('a3', 'Y', '책상다리', 12, 80, 100, 60, NOW(), NOW(), 8),
-('a4', 'Y', '책꽂이', 5, 80, 100, 60, NOW(), NOW(), 9),
-('b1', 'Y', NULL, 8, 100, 120, 80, NOW(), NULL, 10),
-('b2', 'Y', NULL, 6, 100, 120, 80, NOW(), NULL, 6),
-('b3', 'Y', '의자다리', 12, 100, 120, 80, NOW(), NOW(), 7),
-('b4', 'Y', '책상프레임', 2, 100, 120, 80, NOW(), NOW(), 8),
+('b1', 'Y', NULL, 4, 70, 70, 70, NOW(), NULL, 6),
+('b2', 'Y', NULL, 3, 70, 70, 70, NOW(), NULL, 7),
+('b3', 'Y', '책상다리', 12, 70, 70, 70, NOW(), NOW(), 8),
+('b4', 'Y', '책꽂이', 5, 70, 70, 70, NOW(), NOW(), 9),
+('b5', 'Y', NULL, 8, 70, 70, 70, NOW(), NULL, 10),
+('b6', 'Y', NULL, 6, 70, 70, 70, NOW(), NULL, 6),
+('b7', 'Y', '의자다리', 12, 70, 70, 70, NOW(), NOW(), 7),
+('b8', 'Y', '책상프레임', 2, 70, 70, 70, NOW(), NOW(), 8),
 
 -- C-type (c1..c4) distributed to room_code 11..14 (larger boxes, mostly empty)
-('a1', 'Y', NULL, 0, 80, 100, 60, NOW(), NULL, 11),
-('a2', 'Y', NULL, 0, 80, 100, 60, NOW(), NULL, 12),
-('b1', 'Y', NULL, 0, 100, 120, 80, NOW(), NULL, 13),
-('b2', 'Y', NULL, 0, 100, 120, 80, NOW(), NULL, 14);
+('c1', 'Y', NULL, 5, 50, 50, 50, NOW(), NULL, 11),
+('c2', 'Y', NULL, 7, 50, 50, 50, NOW(), NULL, 12),
+('c3', 'Y', NULL, 3, 50, 50, 50, NOW(), NULL, 13),
+('c4', 'Y', NULL, 8, 50, 50, 50, NOW(), NULL, 14);
 
 -- Dynamically set box dimensions (cm) based on room type (room_name prefix A/B/C)
 -- Adjust these values if you want different default box sizes per room type.

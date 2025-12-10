@@ -28,7 +28,6 @@ spring:
     init:
       mode: always
       encoding: UTF-8
-      data-locations: classpath:sql/dummy_data_v1.sql
 
 jwt:
   secret: ${JWT_SECRET}
