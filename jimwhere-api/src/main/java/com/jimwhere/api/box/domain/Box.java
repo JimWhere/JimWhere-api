@@ -53,4 +53,16 @@ public class Box extends BaseTimeEntity {
     @JoinColumn(name = "room_code", nullable = false)
     private com.jimwhere.api.room.domain.Room room;
 
+    public void addCurrentCount(Long quantity) {
+      this.boxCurrentCount+=quantity;
+    }
+    public void subtractCurrentCount(Long quantity) {
+      if((this.boxCurrentCount-=quantity)<0){
+        this.boxCurrentCount=(long)0;
+      }
+  }
+  public void updateBoxContentCount(String boxContent,Long quantity) {
+    this.boxContent=boxContent;
+    this.boxCurrentCount=quantity;
+  }
 }

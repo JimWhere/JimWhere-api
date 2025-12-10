@@ -44,27 +44,27 @@ public class AccessHistoryController {
 
 
   @PutMapping("/user/access/history/{accessHistoryCode}")
-  public ResponseEntity<QrIssueResponse> updateAccessHistory(
+  public ResponseEntity<ApiResponse<QrIssueResponse>> updateAccessHistory(
       @AuthenticationPrincipal CustomUser user,
       @RequestBody CreateAccessHistoryRequest request,
       @PathVariable Long accessHistoryCode
   ) {
     String userName = user.getUsername();
     QrIssueResponse response = accessHistoryService.updateAccessHistory(request, userName,accessHistoryCode);
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
   @GetMapping("/user/access/history")
-  public PageResponse<AccessHistoryResponse> getAccessList(@PageableDefault Pageable pageable,
+  public ApiResponse<PageResponse<AccessHistoryResponse>> getAccessList(@PageableDefault Pageable pageable,
       @AuthenticationPrincipal CustomUser user) {
       String userName = user.getUsername();
     Page<AccessHistoryResponse> accessHistoryList=accessHistoryService.getAccessHistoryList(pageable,userName);
-    return PageResponse.of(accessHistoryList);
+    return ApiResponse.success(PageResponse.of(accessHistoryList));
   }
   @GetMapping("/admin/access/history")
-  public PageResponse<AccessHistoryResponse> getAccessListAll(@PageableDefault Pageable pageable,
+  public  ApiResponse<PageResponse<AccessHistoryResponse>>getAccessListAll(@PageableDefault Pageable pageable,
       @AuthenticationPrincipal CustomUser user) {
     Page<AccessHistoryResponse> accessHistoryList=accessHistoryService.getAccessHistoryListAll(pageable);
-    return PageResponse.of(accessHistoryList);
+    return ApiResponse.success(PageResponse.of(accessHistoryList));
   }
   @GetMapping("/user/access/history/{accessHistoryCode}")
   public ResponseEntity<ApiResponse<AccessHistoryDetailResponse>> selectAccessHistoryByCode(

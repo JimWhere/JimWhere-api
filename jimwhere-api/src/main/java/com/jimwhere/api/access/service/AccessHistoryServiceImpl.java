@@ -1,6 +1,7 @@
 package com.jimwhere.api.access.service;
 
 import com.jimwhere.api.access.domain.AccessHistory;
+import com.jimwhere.api.access.domain.VisitPurpose;
 import com.jimwhere.api.access.dto.request.CreateAccessHistoryRequest;
 import com.jimwhere.api.access.dto.response.AccessHistoryDetailResponse;
 import com.jimwhere.api.access.dto.response.AccessHistoryResponse;
@@ -41,6 +42,10 @@ public class AccessHistoryServiceImpl implements AccessHistoryService {
     User user = userRepository.findByUserId(userName)
         .orElseThrow(() -> new CustomException(ErrorCode.INVALID_USER_ID));
 
+    if(request.getVisitPurpose()!= VisitPurpose.ENTRY&&request.getVisitPurpose()!=VisitPurpose.INOUT){
+      throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT , "방문 목적을 ENTRY 혹은 INOUT 중에서 선택해주세요");
+    }
+
     // 1) AccessHistory 생성
     AccessHistory history = AccessHistory.createAccessHistoryBuilder(
         request.getIsOwner(),
@@ -50,7 +55,8 @@ public class AccessHistoryServiceImpl implements AccessHistoryService {
         user
     );
     for (CreateInOutHistoryRequest inOutHistoryRequest : request.getInOutHistoryRequestList()) {
-        Box box=boxRepository.findById(inOutHistoryRequest.getBoxCode()).orElseThrow();
+        Box box=boxRepository.findById(inOutHistoryRequest.getBoxCode())
+            .orElseThrow(()->new CustomException(ErrorCode.BOX_NOT_FOUND));
       InOutHistory inOutHistory = InOutHistory.createInOutHistory(
           inOutHistoryRequest.getInOutType(),
           inOutHistoryRequest.getInOutName(),
@@ -77,7 +83,8 @@ public class AccessHistoryServiceImpl implements AccessHistoryService {
     User user = userRepository.findByUserId(userName)
         .orElseThrow(() -> new CustomException(ErrorCode.INVALID_USER_ID));
 
-    AccessHistory accessHistory = accessHistoryRepository.findById(accessHistoryCode).orElseThrow();
+    AccessHistory accessHistory = accessHistoryRepository.findById(accessHistoryCode)
+        .orElseThrow(()->new CustomException(ErrorCode.ACCESS_HISTORY_NOT_FOUND));
 
     accessHistory.updateBasic(request.getIsOwner(), request.getVisitPurpose());
 
@@ -92,7 +99,9 @@ public class AccessHistoryServiceImpl implements AccessHistoryService {
 
   @Override
   public Page<AccessHistoryResponse> getAccessHistoryList(Pageable pageable,String userName) {
-      User user=userRepository.findByUserId(userName).orElseThrow();
+      User user=userRepository.findByUserId(userName).orElseThrow(
+          ()->new CustomException(ErrorCode.INVALID_USER_ID)
+      );
       Page<AccessHistory> page =
           accessHistoryRepository.findByUser(user, pageable);
       return page.map(AccessHistoryResponse::from);

@@ -2,6 +2,7 @@ package com.jimwhere.api.inquiry.controller;
 
 import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.global.config.security.CustomUser;
+import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.inquiry.dto.request.CreateInquiryRequest;
 import com.jimwhere.api.inquiry.dto.response.InquiryListResponse;
 import com.jimwhere.api.inquiry.dto.response.InquiryResponse;
@@ -26,40 +27,45 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class InquiryController {
+
   private final InquiryService inquiryService;
 
   @PostMapping("/user/inquiry")
-  public ResponseEntity<String> createInquiry(
+  public ResponseEntity<ApiResponse<String>> createInquiry(
       @RequestBody CreateInquiryRequest request,
       @AuthenticationPrincipal CustomUser user
-  ){
-    String userName=user.getUsername();
-    return ResponseEntity.ok().body(inquiryService.createInquiry(request,userName));
+  ) {
+    String userName = user.getUsername();
+    return ResponseEntity.ok(ApiResponse.success(inquiryService.createInquiry(request, userName)));
   }
+
   @DeleteMapping("/admin/inquiry/{inquiryCode}")
-  public ResponseEntity<String> deleteInquiry(
+  public ResponseEntity<ApiResponse<String>> deleteInquiry(
       @PathVariable Long inquiryCode
-  ){
-    return ResponseEntity.ok().body(inquiryService.deleteInquiry(inquiryCode));
+  ) {
+    return ResponseEntity.ok(ApiResponse.success(inquiryService.deleteInquiry(inquiryCode)));
   }
+
   @PutMapping("/admin/inquiry/{inquiryCode}")
-  public ResponseEntity<String> updateInquiryAnswer(
+  public ResponseEntity<ApiResponse<String>> updateInquiryAnswer(
       @PathVariable Long inquiryCode,
       @RequestBody UpdateAnswerRequest request,
       @AuthenticationPrincipal CustomUser user
-  ){
-    String userName=user.getUsername();
-    return ResponseEntity.ok().body(inquiryService.updateAnswer(inquiryCode,request,userName));
+  ) {
+    String userName = user.getUsername();
+    return ResponseEntity.ok(ApiResponse.success(inquiryService.updateAnswer(inquiryCode, request, userName)));
   }
+
   @GetMapping("/inquiry/{inquiryCode}")
-  public ResponseEntity<InquiryResponse> getInquiry(
+  public ResponseEntity<ApiResponse<InquiryResponse>> getInquiry(
       @PathVariable Long inquiryCode
-  ){
-    return ResponseEntity.ok().body(inquiryService.getInquiry(inquiryCode));
+  ) {
+    return ResponseEntity.ok(ApiResponse.success(inquiryService.getInquiry(inquiryCode)));
   }
+
   @GetMapping("/inquiry") //리스트 조회
-  public PageResponse<InquiryListResponse> getInquiryList(@PageableDefault Pageable pageable) {
-    Page<InquiryListResponse> inquiryList=inquiryService.getInquiryList(pageable);
-    return PageResponse.of(inquiryList);
+  public ApiResponse<PageResponse<InquiryListResponse>> getInquiryList(@PageableDefault Pageable pageable) {
+    Page<InquiryListResponse> inquiryList = inquiryService.getInquiryList(pageable);
+    return ApiResponse.success(PageResponse.of(inquiryList));
   }
 }
