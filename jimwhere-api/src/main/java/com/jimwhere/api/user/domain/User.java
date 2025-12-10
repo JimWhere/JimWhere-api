@@ -25,7 +25,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private String userPhoneNumber;
 
     // DB에는 VARCHAR("USER", "ADMIN") 로 저장됨
@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserStatus status;
 
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private String userBusinessNumber;
 
     @Column(name = "p_name", nullable = false)

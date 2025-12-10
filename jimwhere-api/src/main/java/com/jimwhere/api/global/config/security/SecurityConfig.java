@@ -26,6 +26,8 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,6 +41,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
 
 
                 // 권한 설정
@@ -80,6 +83,11 @@ public class SecurityConfig {
 
                                 // API 보호
                                 .anyRequest().authenticated()
+
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(authenticationEntryPoint)   // 401
+                        .accessDeniedHandler(accessDeniedHandler)             // 403
                 )
 
                 // JWT 필터 추가
