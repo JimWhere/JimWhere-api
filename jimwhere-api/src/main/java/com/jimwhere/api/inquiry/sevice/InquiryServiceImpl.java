@@ -23,9 +23,13 @@ public class InquiryServiceImpl implements InquiryService {
   private final UserRepository userRepository;
   @Override
   public String createInquiry(CreateInquiryRequest request,String userName) {
-    if(request==null ){
-      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
+    if(request.inquiryContent()==null|| request.inquiryContent().isEmpty()){
+      throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
     }
+    if(request.inquiryTitle()==null|| request.inquiryTitle().isEmpty()){
+      throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
+    }
+
     User user=userRepository.findByUserId(userName)
         .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID));
     Inquiry inquiry = Inquiry.createInquiry(
@@ -39,8 +43,8 @@ public class InquiryServiceImpl implements InquiryService {
 
   @Override
   public String updateAnswer(Long inquiryCode, UpdateAnswerRequest request,String userName) {
-    if(inquiryCode==null){
-      throw new IllegalArgumentException("문의를 찾을 수 없습니다.");
+    if(request.answer()==null|| request.answer().isEmpty()){
+      throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
     }
     Inquiry inquiry=inquiryRepository.findByInquiryCodeAndIsDeletedFalse(inquiryCode).orElseThrow(
         ()->new CustomException(ErrorCode.INQUIRY_NOT_FOUND)
@@ -54,12 +58,12 @@ public class InquiryServiceImpl implements InquiryService {
 
   @Override
   public String deleteInquiry(Long inquiryCode) {
-    if(inquiryCode==null){
-      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
-    }
     Inquiry inquiry=inquiryRepository.findById(inquiryCode).orElseThrow(
         ()->new CustomException(ErrorCode.INQUIRY_NOT_FOUND)
     );
+    if(inquiry.getIsDeleted()){
+      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
+    }
     inquiry.deleteInquiry();
     inquiryRepository.save(inquiry);
     return "삭제 되었습니다.";
@@ -67,9 +71,6 @@ public class InquiryServiceImpl implements InquiryService {
 
   @Override
   public InquiryResponse getInquiry(Long inquiryCode) {
-    if(inquiryCode==null){
-      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
-    }
     Inquiry inquiry= inquiryRepository.findByInquiryCodeAndIsDeletedFalse(inquiryCode)
         .orElseThrow(        ()->new CustomException(ErrorCode.INQUIRY_NOT_FOUND));
 
@@ -84,8 +85,16 @@ public class InquiryServiceImpl implements InquiryService {
   }
 
   @Override
+  public Page<InquiryListResponse> getInquiryList(Pageable pageable, String userName) {
+    User user=userRepository.findByUserId(userName)
+        .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID));
+    Page<Inquiry> page=inquiryRepository.findByUserAndIsDeletedFalse(user, pageable);
+    return page.map(InquiryListResponse::from);
+  }
+
+  @Override
   @Transactional(readOnly = true)
-  public Page<InquiryListResponse> getInquiryList(Pageable pageable) {
+  public Page<InquiryListResponse> getInquiryListAll(Pageable pageable) {
     Page<Inquiry> page = inquiryRepository.findByIsDeletedFalse(pageable);
     return page.map(InquiryListResponse::from);
   }

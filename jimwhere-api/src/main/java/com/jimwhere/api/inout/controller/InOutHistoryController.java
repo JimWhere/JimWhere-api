@@ -27,7 +27,7 @@ public class InOutHistoryController {
 
   private final InOutHistoryService inOutHistoryService;
 
-  @PutMapping("/user/in/out/history/{inOutHistoryCode}")
+  @PutMapping("/user/inout/history/{inOutHistoryCode}")
   public ResponseEntity<ApiResponse<String>> updateInOutHistory(
       @PathVariable Long inOutHistoryCode,
       @RequestBody UpdateInOutHistoryRequest request,
@@ -38,7 +38,7 @@ public class InOutHistoryController {
             inOutHistoryService.updateInOutHistory(inOutHistoryCode, request)));
   }
 
-  @GetMapping("/user/in/out/history")
+  @GetMapping("/user/inout/history")
   public ApiResponse<PageResponse<InOutHistoryResponse>> findInOutHistoryList(
       @PageableDefault Pageable pageable,
       @AuthenticationPrincipal CustomUser user
@@ -49,7 +49,7 @@ public class InOutHistoryController {
     return ApiResponse.success(PageResponse.of(inoutHistoryList));
   }
 
-  @GetMapping("/admin/in/out/history")
+  @GetMapping("/admin/inout/history")
   public ApiResponse<PageResponse<InOutHistoryResponse>> findInOutHistoryListAll(
       @PageableDefault Pageable pageable
   ) {
