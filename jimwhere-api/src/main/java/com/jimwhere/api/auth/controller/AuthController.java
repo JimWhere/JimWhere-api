@@ -96,11 +96,11 @@ public class AuthController {
             @AuthenticationPrincipal UserDetails userDetails,
             @CookieValue(name = COOKIE_NAME, required = false) String refreshToken
     ) {
-        String userEmail = userDetails.getUsername();
+        String userId = userDetails.getUsername();
 
         // Redis에서 refreshToken 삭제 (있으면)
         if (refreshToken != null && !refreshToken.isBlank()) {
-            redisRefreshTokenService.delete(userEmail);
+            redisRefreshTokenService.delete(userId);
         }
 
         // 쿠키 즉시 만료

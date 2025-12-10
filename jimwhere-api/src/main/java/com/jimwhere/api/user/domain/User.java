@@ -63,6 +63,23 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
+    // 어드민 생성
+    public static User createAdmin(
+            String userId, String password, String phone, String businessNumber,
+            String pName, String startDt
+    ) {
+        return User.builder()
+                .userId(userId)
+                .password(password)
+                .userPhoneNumber(phone)
+                .userBusinessNumber(businessNumber)
+                .pName(pName)
+                .startDt(startDt)
+                .role(UserRole.ADMIN)
+                .status(UserStatus.Y)
+                .build();
+    }
+
 
 
     public void updatePhone(String newPhoneNumber) {

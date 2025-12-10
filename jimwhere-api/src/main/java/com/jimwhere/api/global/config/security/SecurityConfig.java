@@ -40,12 +40,16 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
+
                 // 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        // 우선 개발초기랑 다 열어둠
+                                // 우선 개발초기랑 다 열어둠
 //                        .requestMatchers("/**").permitAll()
-                        // 로그인/회원가입 공개
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                                // 로그인/회원가입 공개
+                                .requestMatchers(
+                                        "/api/v1/auth/**"
+                                ).permitAll()
+
                                 .requestMatchers(
                                         "/api/v1/access/**",
                                         "/api/v1/alarms/**",
@@ -62,20 +66,20 @@ public class SecurityConfig {
 
                                 ).permitAll()
 
-                        // Swagger 공개
-                        .requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**"
-                        ).permitAll()
+                                // Swagger 공개
+                                .requestMatchers(
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources/**",
+                                        "/webjars/**"
+                                ).permitAll()
 
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/user/**").hasRole("USER")
+                                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/user/**").hasRole("USER")
 
-                        // API 보호
-                        .anyRequest().authenticated()
+                                // API 보호
+                                .anyRequest().authenticated()
                 )
 
                 // JWT 필터 추가
@@ -95,8 +99,8 @@ public class SecurityConfig {
                 "http://localhost:5173"
         ));
 
-        c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
-        c.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        c.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         c.setExposedHeaders(List.of("Authorization"));
         c.setAllowCredentials(true);
         c.setMaxAge(3600L);

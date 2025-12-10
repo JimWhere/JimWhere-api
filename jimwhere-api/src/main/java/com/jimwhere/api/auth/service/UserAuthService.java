@@ -4,6 +4,8 @@ import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.auth.dto.UserCreateRequest;
+import com.jimwhere.api.user.domain.UserRole;
+import com.jimwhere.api.user.domain.UserStatus;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +45,38 @@ public class UserAuthService {
         );
 
         userRepository.save(user);
+    }
+
+
+
+    // 어드민 생성
+    public void createAdmin(UserCreateRequest request) {
+
+        String normalizedPhone = normalizeNumber(request.getUserPhoneNumber());
+        String normalizedBusiness = normalizeNumber(request.getUserBusinessNumber());
+
+        boolean existUserId = userRepository.existsByUserId(request.getUserId());
+        boolean existPhoneNumber = userRepository.existsByUserPhoneNumber(normalizedPhone);
+        boolean existBusinessNumber = userRepository.existsByUserBusinessNumber(normalizedBusiness);
+
+        if (existUserId || existPhoneNumber || existBusinessNumber) {
+            throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT, "이미 가입 된 정보입니다");
+        }
+
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        User admin = User.builder()
+                .userId(request.getUserId())
+                .password(encodedPassword)
+                .userPhoneNumber(normalizedPhone)
+                .userBusinessNumber(normalizedBusiness)
+                .pName(request.getPName())
+                .startDt(request.getStartDt())
+                .role(UserRole.ADMIN)
+                .status(UserStatus.Y)
+                .build();
+
+        userRepository.save(admin);
     }
 
 

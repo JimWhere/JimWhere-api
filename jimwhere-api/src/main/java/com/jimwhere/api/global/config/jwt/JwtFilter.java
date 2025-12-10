@@ -28,15 +28,16 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailsService customUserDetailsService;
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getRequestURI();
-
-        // 토큰 필요 없는 경로
-        return path.startsWith("/api/v1/auth/")
-                || path.startsWith("/swagger")
-                || path.startsWith("/v3/api-docs");
-    }
+    // 필요없음 시큐리티에서 걸러짐
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        String path = request.getRequestURI();
+//
+//        // 토큰 필요 없는 경로
+//        return path.startsWith("/api/v1/auth/")
+//                || path.startsWith("/swagger")
+//                || path.startsWith("/v3/api-docs");
+//    }
 
 
     @Override
@@ -48,7 +49,11 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             String authHeader = request.getHeader("Authorization");
 
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
                 String token = authHeader.substring(7);
 
                 // 토큰 검증 (예외 발생 시 catch로 감)
@@ -71,24 +76,21 @@ public class JwtFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
 
             filterChain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
             setErrorResponse(response, ErrorCode.INVALID_OR_EXPIRED_QR, "토큰이 만료되었습니다.");
 
-        } catch (SecurityException e) {  // 🔥 시그니처 불일치, 변조됨
+        } catch (SecurityException e) {  // 시그니처 불일치, 변조됨
             setErrorResponse(response, ErrorCode.INVALID_REQUEST, "서명이 올바르지 않습니다.");
 
-        } catch (MalformedJwtException e) {  // 🔥 형식이 잘못된 토큰
+        } catch (MalformedJwtException e) {  // 형식이 잘못된 토큰
             setErrorResponse(response, ErrorCode.INVALID_REQUEST, "유효하지 않은 토큰 형식입니다.");
 
-        } catch (JwtException e) {   // 🔥 기타 모든 JWT 오류
+        } catch (JwtException e) {   // 기타 모든 JWT 오류
             setErrorResponse(response, ErrorCode.INVALID_REQUEST, "잘못된 JWT 토큰입니다.");
 
-        } catch (Exception e) {  // 🔥 나머지는 서버 오류
-            setErrorResponse(response, ErrorCode.UNAUTHORIZED_ACCESS, "토큰 인증 과정에서 오류 발생");
         }
     }
 
