@@ -2,6 +2,7 @@ package com.jimwhere.api.notice.controller;
 
 import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.global.config.security.CustomUser;
+import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.notice.dto.request.CreateNoticeRequest;
 import com.jimwhere.api.notice.dto.response.NoticeListResponse;
 import com.jimwhere.api.notice.dto.response.NoticeResponse;
@@ -30,28 +31,28 @@ public class NoticeController {
 
 
   @PostMapping("/admin/notice")
-  public ResponseEntity<String> createNotice(@RequestBody CreateNoticeRequest request,
+  public ResponseEntity<ApiResponse<String>> createNotice(@RequestBody CreateNoticeRequest request,
       @AuthenticationPrincipal CustomUser user) {
     String userName=user.getUsername();
-    return ResponseEntity.ok().body(noticeService.createNotice(request,userName));
+    return ResponseEntity.ok(ApiResponse.success(noticeService.createNotice(request,userName)));
   }
   @DeleteMapping("/admin/notice/{noticeCode}")
-  public ResponseEntity<String> deleteNotice(@PathVariable Long noticeCode) {
-    return ResponseEntity.ok().body(noticeService.deleteNotice(noticeCode));
+  public ResponseEntity<ApiResponse<String>> deleteNotice(@PathVariable Long noticeCode) {
+    return ResponseEntity.ok(ApiResponse.success(noticeService.deleteNotice(noticeCode)));
   }
   @PutMapping("/admin/notice/{noticeCode}")
-  public ResponseEntity<String> updateNotice(@PathVariable Long noticeCode ,
+  public ResponseEntity<ApiResponse<String>> updateNotice(@PathVariable Long noticeCode ,
       @RequestBody UpdateNoticeRequest request) {
-    return ResponseEntity.ok().body(noticeService.updateNotice(noticeCode,request));
+    return ResponseEntity.ok(ApiResponse.success(noticeService.updateNotice(noticeCode,request)));
   }
   @GetMapping("/notice/{noticeCode}")//상세조회
-  public ResponseEntity<NoticeResponse> findNotice(@PathVariable Long noticeCode) {
-    return ResponseEntity.ok().body(noticeService.getNotice(noticeCode));
+  public ResponseEntity<ApiResponse<NoticeResponse>> findNotice(@PathVariable Long noticeCode) {
+    return ResponseEntity.ok(ApiResponse.success(noticeService.getNotice(noticeCode)));
   }
   @GetMapping("/notice") //리스트 조회
-  public PageResponse<NoticeListResponse> getNoticeList(@PageableDefault Pageable pageable) {
+  public ApiResponse<PageResponse<NoticeListResponse>> getNoticeList(@PageableDefault Pageable pageable) {
     Page<NoticeListResponse> noticeList=noticeService.getNoticeList(pageable);
-    return PageResponse.of(noticeList);
+    return ApiResponse.success(PageResponse.of(noticeList));
   }
 
 

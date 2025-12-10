@@ -69,7 +69,12 @@ public class InOutHistory {
   public void updateInOutName(String inOutName){
     this.inOutName = inOutName;
   }
-  public void updateInOutQuantity(Long inoutQuantity){
+  public void updateInOutQuantity(Long inOutQuantity){
+    this.inOutQuantity = inOutQuantity;
+  }
+  public void updateInOutHistory(InOutType inOutType,String inOutName,Long inOutQuantity){
+    this.inOutType = inOutType;
+    this.inOutName = inOutName;
     this.inOutQuantity = inOutQuantity;
   }
   public void setAccessHistory(AccessHistory accessHistory) {
