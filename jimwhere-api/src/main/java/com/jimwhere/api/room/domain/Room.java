@@ -23,7 +23,7 @@ public class Room extends BaseTimeEntity {
     @Column(name = "room_code")
     private Long roomCode;
 
-    @Column(name = "room_name", length = 50, nullable = false)
+    @Column(name = "room_name", length = 50, nullable = false, unique = true)
     private String roomName;
 
     @Column(name = "room_width", nullable = false)

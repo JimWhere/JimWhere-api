@@ -6,6 +6,8 @@ import com.jimwhere.api.room.domain.Room;
 import com.jimwhere.api.room.dto.RoomDto;
 import com.jimwhere.api.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,21 +23,38 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDto.Response createRoom(RoomDto.CreateRequest request) {
+        
+        // 요청 체크
         if (request == null) throw new CustomException(ErrorCode.INVALID_REQUEST);
+        
+        // 입력 검증 및 정규화
+        String roomName = request.getRoomName();
+        if (roomName == null || roomName.isBlank()) throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
+        roomName = roomName.trim();
 
+        // 중복 체크 1 : 비즈니스 로직단의 확인
+        if (roomRepository.existsByRoomName(roomName)) {
+            throw new CustomException(ErrorCode.ROOM_ALREADY_EXISTS);
+        }
+        
         Room room = new Room();
-        room.setRoomName(request.getRoomName());
+        room.setRoomName(roomName);
         room.setRoomWidth(request.getRoomWidth());
         room.setRoomLength(request.getRoomLength());
         room.setRoomHeight(request.getRoomHeight());
 
-        Room saved = roomRepository.save(room);
-
-        return toResponse(saved);
+        try {
+            Room saved = roomRepository.save(room);
+            return toResponse(saved);
+        } catch (DataIntegrityViolationException e) {
+            // 중복 체크 2 : DB 제약단에서의 확인
+            throw new CustomException(ErrorCode.ROOM_ALREADY_EXISTS);
+        }
     }
 
     @Override
     public RoomDto.Response updateRoom(Long roomCode, RoomDto.UpdateRequest request) {
+        // 조회 체크 : 비즈니스 로직단
         Room room = roomRepository.findById(roomCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
