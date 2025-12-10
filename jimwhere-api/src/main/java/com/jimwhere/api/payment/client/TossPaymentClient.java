@@ -8,9 +8,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Toss Payments API 호출 클라이언트
- */
+
+    // Toss Payments API 호출 클라이언트
 @Component
 @RequiredArgsConstructor
 public class TossPaymentClient {
