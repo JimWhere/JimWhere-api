@@ -2,6 +2,9 @@ package com.jimwhere.api.global.config.sql;
 
 import com.jimwhere.api.auth.dto.UserCreateRequest;
 import com.jimwhere.api.auth.service.UserAuthService;
+import com.jimwhere.api.user.domain.User;
+import com.jimwhere.api.user.domain.UserRole;
+import com.jimwhere.api.user.domain.UserStatus;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,16 @@ public class DevUserRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        UserCreateRequest adminRequest = new UserCreateRequest(
+                "admin1",
+                "1234",
+                "01012341234",
+                "111111111111",
+                "관리자1",
+                "2025-12-12"
+        );
+
+        service.createAdmin(adminRequest);
 
         for (int i = 1; i <= 10; i++) {
 
@@ -43,6 +56,6 @@ public class DevUserRunner implements CommandLineRunner {
 
         }
 
-        System.out.println("10개 유저 더미데이터 생성");
+        System.out.println("어드민1 , 유저10개 더미데이터 생성");
     }
 }

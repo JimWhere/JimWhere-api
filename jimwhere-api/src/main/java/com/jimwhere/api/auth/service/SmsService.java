@@ -15,13 +15,16 @@ public class SmsService {
 
     private final DefaultMessageService messageService;
     private final RedisTemplate<String, String> redisTemplate;
+    private final String fromNumber;
 
     public SmsService(
             @Value("${coolsms.api-key}") String apiKey,
             @Value("${coolsms.api-secret}") String apiSecret,
+            @Value("${coolsms.from-number}") String fromNumber,
             RedisTemplate<String, String> redisTemplate
     ) {
         this.redisTemplate = redisTemplate;
+        this.fromNumber = fromNumber;
 
         this.messageService = NurigoApp.INSTANCE.initialize(
                 apiKey,
@@ -41,7 +44,7 @@ public class SmsService {
 
         // 문자 생성
         Message message = new Message();
-        message.setFrom("01082802980");
+        message.setFrom(fromNumber);
         message.setTo(phone);
         message.setText(
                         "[JimWhere 인증]\n" +
