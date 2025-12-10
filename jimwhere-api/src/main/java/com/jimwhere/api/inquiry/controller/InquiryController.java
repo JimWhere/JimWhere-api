@@ -62,10 +62,20 @@ public class InquiryController {
   ) {
     return ResponseEntity.ok(ApiResponse.success(inquiryService.getInquiry(inquiryCode)));
   }
+  @GetMapping("/user/inquiry")
+  public ApiResponse<PageResponse<InquiryListResponse>> getInquiryList(
+      @PageableDefault Pageable pageable,
+      @AuthenticationPrincipal CustomUser user
+  ) {
+    String userName = user.getUsername();
+    Page<InquiryListResponse> inquiryList = inquiryService.getInquiryList(pageable,
+        userName);
+    return ApiResponse.success(PageResponse.of(inquiryList));
+  }
 
-  @GetMapping("/inquiry") //리스트 조회
-  public ApiResponse<PageResponse<InquiryListResponse>> getInquiryList(@PageableDefault Pageable pageable) {
-    Page<InquiryListResponse> inquiryList = inquiryService.getInquiryList(pageable);
+  @GetMapping("/admin/inquiry") //리스트 조회
+  public ApiResponse<PageResponse<InquiryListResponse>> getInquiryListAll(@PageableDefault Pageable pageable) {
+    Page<InquiryListResponse> inquiryList = inquiryService.getInquiryListAll(pageable);
     return ApiResponse.success(PageResponse.of(inquiryList));
   }
 }
