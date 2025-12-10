@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 public interface NoticeService {
   String createNotice(CreateNoticeRequest request,String userName);
   String deleteNotice(Long noticeCode);
-  NoticeResponse getNotice(Long noticeCode);
+  NoticeResponse findNotice(Long noticeCode);
   String updateNotice(Long noticeCode, UpdateNoticeRequest request);
-  Page<NoticeListResponse> getNoticeList(Pageable pageable);
+  Page<NoticeListResponse> findNoticeListAll(Pageable pageable);
 }

@@ -23,7 +23,12 @@ public class NoticeServiceImpl implements NoticeService {
   private final UserRepository userRepository;
   @Override
   public String createNotice(CreateNoticeRequest request,String userName) {
-
+    if(request.noticeContent()==null|| request.noticeContent().isEmpty()){
+      throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
+    }
+    if(request.noticeTitle()==null|| request.noticeTitle().isEmpty()){
+      throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
+    }
     User user=userRepository.findByUserId(userName)
         .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID));
     Notice notice = Notice.createNotice(
@@ -38,10 +43,7 @@ public class NoticeServiceImpl implements NoticeService {
   @Override
   @Transactional
   public String deleteNotice(Long noticeCode) {
-    if(noticeCode==null) {
-      throw new CustomException(ErrorCode.NOTICE_NOT_FOUND);
-    }
-    Notice notice=noticeRepository.findById(noticeCode).orElseThrow();
+    Notice notice=noticeRepository.findById(noticeCode).orElseThrow(()-> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
     if(notice.getIsDeleted()){
       throw new CustomException(ErrorCode.NOTICE_NOT_FOUND);
     }//db 에서 isDeleted가 0으로
@@ -50,7 +52,7 @@ public class NoticeServiceImpl implements NoticeService {
   }
 
   @Override
-  public NoticeResponse getNotice(Long noticeCode) {
+  public NoticeResponse findNotice(Long noticeCode) {
 
     Notice notice = noticeRepository.findByNoticeCodeAndIsDeletedFalse(noticeCode)
         .orElseThrow(()-> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
@@ -67,15 +69,16 @@ public class NoticeServiceImpl implements NoticeService {
   @Override
   @Transactional
   public String updateNotice(Long noticeCode, UpdateNoticeRequest request) {
-    if(noticeCode==null|| noticeRepository.findById(noticeCode).isEmpty()){
-      throw new CustomException(ErrorCode.NOTICE_NOT_FOUND);
-    }
 
-    Notice notice=noticeRepository.findById(noticeCode).orElseThrow();
-    if(request.noticeTitle()!=null){
+    Notice notice=noticeRepository.findById(noticeCode).orElseThrow( ()-> new CustomException(ErrorCode.NOTICE_NOT_FOUND));
+
+
+    if(request.noticeTitle()!=null&&!request.noticeTitle().isEmpty()){
       notice.updateTitle(request.noticeTitle());
+    }else if(request.noticeContent()==null||request.noticeContent().isEmpty()){
+      throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT);
     }
-    if(request.noticeContent()!=null){
+    if(request.noticeContent()!=null&&!request.noticeContent().isEmpty()){
       notice.updateContent(request.noticeContent());
     }
     noticeRepository.save(notice);
@@ -83,7 +86,7 @@ public class NoticeServiceImpl implements NoticeService {
   }
 
   @Override
-  public Page<NoticeListResponse> getNoticeList(Pageable pageable) {
+  public Page<NoticeListResponse> findNoticeListAll(Pageable pageable) {
 
     Page<Notice> page = noticeRepository.findByIsDeletedFalse(pageable);
     return page.map(NoticeListResponse::from);

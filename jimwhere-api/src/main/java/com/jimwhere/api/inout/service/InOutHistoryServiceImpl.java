@@ -43,7 +43,6 @@ public class InOutHistoryServiceImpl implements InOutHistoryService {
     }
     else {throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT,"출고할 물품이 없습니다.");}
     inOutHistory.updateInOutHistory(request.getInOutType(),request.getInOutName(),request.getInOutQuantity());
-    //inOutHistoryRepository.save(inOutHistory);
     return "재고 사항 수정";
   }
 

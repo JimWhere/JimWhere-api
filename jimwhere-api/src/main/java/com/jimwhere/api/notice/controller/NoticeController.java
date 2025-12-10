@@ -47,11 +47,11 @@ public class NoticeController {
   }
   @GetMapping("/notice/{noticeCode}")//상세조회
   public ResponseEntity<ApiResponse<NoticeResponse>> findNotice(@PathVariable Long noticeCode) {
-    return ResponseEntity.ok(ApiResponse.success(noticeService.getNotice(noticeCode)));
+    return ResponseEntity.ok(ApiResponse.success(noticeService.findNotice(noticeCode)));
   }
   @GetMapping("/notice") //리스트 조회
   public ApiResponse<PageResponse<NoticeListResponse>> getNoticeList(@PageableDefault Pageable pageable) {
-    Page<NoticeListResponse> noticeList=noticeService.getNoticeList(pageable);
+    Page<NoticeListResponse> noticeList=noticeService.findNoticeListAll(pageable);
     return ApiResponse.success(PageResponse.of(noticeList));
   }
 
