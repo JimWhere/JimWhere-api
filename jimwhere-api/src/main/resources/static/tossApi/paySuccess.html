@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>결제 성공</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h1>결제 성공 페이지</h1>
+<pre id="paySuccessResult">confirm 요청 중...</pre>
+
+<script>
+    const backendBaseUrl = 'http://localhost:8081/api/v1';
+    const paySuccessResult = document.getElementById('paySuccessResult');
+
+    // Toss가 넘겨준 쿼리스트링 파싱
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentKey = urlParams.get('paymentKey');
+    const orderId = urlParams.get('orderId');
+    const amount = Number(urlParams.get('amount'));
+
+    confirmPayment();
+
+    async function confirmPayment() {
+        try {
+            const response = await axios.post(`${backendBaseUrl}/payments/success`, {
+                paymentKey,
+                orderId,
+                amount
+            });
+
+            paySuccessResult.textContent = JSON.stringify(response.data, null, 2);
+        } catch (error) {
+            console.error('confirm error:', error);
+
+            if (error.response) {
+                // 백엔드에서 내려준 내용 그대로 출력
+                paySuccessResult.textContent =
+                    'confirm 중 오류 발생\n' +
+                    'status: ' + error.response.status + '\n\n' +
+                    JSON.stringify(error.response.data, null, 2);
+            } else {
+                paySuccessResult.textContent = 'confirm 중 오류 발생\n' + error;
+            }
+        }
+    }
+</script>
+</body>
+</html>

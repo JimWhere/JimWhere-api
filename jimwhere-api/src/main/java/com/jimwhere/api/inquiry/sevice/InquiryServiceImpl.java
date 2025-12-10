@@ -1,5 +1,7 @@
 package com.jimwhere.api.inquiry.sevice;
 
+import com.jimwhere.api.global.exception.CustomException;
+import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.inquiry.domain.Inquiry;
 import com.jimwhere.api.inquiry.dto.request.CreateInquiryRequest;
 import com.jimwhere.api.inquiry.dto.response.InquiryListResponse;
@@ -21,11 +23,11 @@ public class InquiryServiceImpl implements InquiryService {
   private final UserRepository userRepository;
   @Override
   public String createInquiry(CreateInquiryRequest request,String userName) {
-    if(request==null){
-      throw new IllegalArgumentException("request is null");
+    if(request==null ){
+      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
     }
     User user=userRepository.findByUserId(userName)
-        .orElseThrow(()->new IllegalArgumentException("유저이름과 일치하는 유저를 찾을 수 업습니다."));
+        .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID));
     Inquiry inquiry = Inquiry.createInquiry(
         request.inquiryTitle(),
         request.inquiryContent(),
@@ -40,9 +42,11 @@ public class InquiryServiceImpl implements InquiryService {
     if(inquiryCode==null){
       throw new IllegalArgumentException("문의를 찾을 수 없습니다.");
     }
-    Inquiry inquiry=inquiryRepository.findById(inquiryCode).orElseThrow();
+    Inquiry inquiry=inquiryRepository.findByInquiryCodeAndIsDeletedFalse(inquiryCode).orElseThrow(
+        ()->new CustomException(ErrorCode.INQUIRY_NOT_FOUND)
+    );
     User user=userRepository.findByUserId(userName)
-        .orElseThrow(()->new IllegalArgumentException("유저이름과 일치하는 유저를 찾을 수 업습니다."));
+        .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID));
     inquiry.answerInquiry(request.answer(),user);
     inquiryRepository.save(inquiry);
     return "답변이 성공적으로 달렸습니다.";
@@ -51,9 +55,11 @@ public class InquiryServiceImpl implements InquiryService {
   @Override
   public String deleteInquiry(Long inquiryCode) {
     if(inquiryCode==null){
-      throw new IllegalArgumentException("문의를 찾을 수 없습니다.");
+      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
     }
-    Inquiry inquiry=inquiryRepository.findById(inquiryCode).orElseThrow();
+    Inquiry inquiry=inquiryRepository.findById(inquiryCode).orElseThrow(
+        ()->new CustomException(ErrorCode.INQUIRY_NOT_FOUND)
+    );
     inquiry.deleteInquiry();
     inquiryRepository.save(inquiry);
     return "삭제 되었습니다.";
@@ -62,10 +68,10 @@ public class InquiryServiceImpl implements InquiryService {
   @Override
   public InquiryResponse getInquiry(Long inquiryCode) {
     if(inquiryCode==null){
-      throw new IllegalArgumentException("문의 찾을 수 없습니다.");
+      throw new CustomException(ErrorCode.INQUIRY_NOT_FOUND);
     }
     Inquiry inquiry= inquiryRepository.findByInquiryCodeAndIsDeletedFalse(inquiryCode)
-        .orElseThrow(() -> new IllegalArgumentException("삭제된 문의 입니다."));
+        .orElseThrow(        ()->new CustomException(ErrorCode.INQUIRY_NOT_FOUND));
 
     return new InquiryResponse(
         inquiry.getInquiryCode(),

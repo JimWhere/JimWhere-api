@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>결제 실패</title>
+</head>
+<body>
+<h1>결제 실패</h1>
+<pre id="payFailInfo"></pre>
+
+<script>
+    const payFailInfo = document.getElementById('payFailInfo');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const message = urlParams.get('message');
+
+    payFailInfo.textContent = 'code: ' + code + '\nmessage: ' + message;
+</script>
+</body>
+</html>
