@@ -4,6 +4,7 @@ import com.jimwhere.api.access.domain.AccessHistory;
 import com.jimwhere.api.access.domain.IsOwner;
 import com.jimwhere.api.access.domain.VisitPurpose;
 import com.jimwhere.api.access.dto.request.CreateAccessHistoryRequest;
+import com.jimwhere.api.access.dto.response.AccessHistoryAllResponse;
 import com.jimwhere.api.access.dto.response.AccessHistoryDetailResponse;
 import com.jimwhere.api.access.dto.response.AccessHistoryResponse;
 import com.jimwhere.api.access.repository.AccessHistoryRepository;
@@ -132,10 +133,10 @@ public class AccessHistoryServiceImpl implements AccessHistoryService {
       return page.map(AccessHistoryResponse::from);
     }
   @Override
-  public Page<AccessHistoryResponse> getAccessHistoryListAll(Pageable pageable) {
+  public Page<AccessHistoryAllResponse> getAccessHistoryListAll(Pageable pageable) {
     Page<AccessHistory> page =
         accessHistoryRepository.findAll(pageable);
-    return page.map(AccessHistoryResponse::from);
+    return page.map(AccessHistoryAllResponse::from);
   }
 
   @Transactional

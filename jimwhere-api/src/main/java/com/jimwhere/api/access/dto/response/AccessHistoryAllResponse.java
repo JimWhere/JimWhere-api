@@ -6,23 +6,25 @@ import com.jimwhere.api.access.domain.IsOwner;
 import com.jimwhere.api.access.domain.VisitPurpose;
 import java.time.LocalDateTime;
 
-public record AccessHistoryResponse (
+public record AccessHistoryAllResponse (
     Long accessHistoryCode,
     IsOwner isOwner,
-  VisitPurpose visitPurpose,
-  Long roomCode,
-
+    VisitPurpose visitPurpose,
+    Long roomCode,
     LocalDateTime accessedAt,
-    AccessResult accessResult){
+    AccessResult accessResult,
+    String userId
+) {
 
-  public static AccessHistoryResponse  from(AccessHistory accessHistory) {
-    return new AccessHistoryResponse(
+  public static AccessHistoryAllResponse from(AccessHistory accessHistory) {
+    return new AccessHistoryAllResponse(
         accessHistory.getAccessHistoryCode(),
-    accessHistory.getIsOwner(),
-    accessHistory.getVisitPurpose(),
+        accessHistory.getIsOwner(),
+        accessHistory.getVisitPurpose(),
         accessHistory.getRoomCode(),
         accessHistory.getAccessedAt(),
-        accessHistory.getAccessResult());
+        accessHistory.getAccessResult(),
+        accessHistory.getUser().getUserId()
+    );
   }
 }
-

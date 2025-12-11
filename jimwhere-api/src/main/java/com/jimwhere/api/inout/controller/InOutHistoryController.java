@@ -5,6 +5,7 @@ import com.jimwhere.api.global.config.security.CustomUser;
 
 import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.inout.dto.request.UpdateInOutHistoryRequest;
+import com.jimwhere.api.inout.dto.response.InOutHistoryAllResponse;
 import com.jimwhere.api.inout.dto.response.InOutHistoryResponse;
 import com.jimwhere.api.inout.service.InOutHistoryService;
 import lombok.RequiredArgsConstructor;
@@ -50,10 +51,10 @@ public class InOutHistoryController {
   }
 
   @GetMapping("/admin/inout/history")
-  public ApiResponse<PageResponse<InOutHistoryResponse>> findInOutHistoryListAll(
+  public ApiResponse<PageResponse<InOutHistoryAllResponse>> findInOutHistoryListAll(
       @PageableDefault Pageable pageable
   ) {
-    Page<InOutHistoryResponse> inoutHistoryList = inOutHistoryService.findInOutHistoryListAll(
+    Page<InOutHistoryAllResponse> inoutHistoryList = inOutHistoryService.findInOutHistoryListAll(
         pageable);
     return ApiResponse.success(PageResponse.of(inoutHistoryList));
   }
