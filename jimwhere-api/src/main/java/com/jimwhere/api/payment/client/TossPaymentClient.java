@@ -17,18 +17,17 @@ public class TossPaymentClient {
     private final TossPaymentProperties properties;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    /**
-     * 결제 승인 요청
-     * POST {baseUrl}/v1/payments/confirm
-     * body: {paymentKey, orderId, amount}
-     */
+
+     // 결제 승인 요청
+
     public TossConfirmResponse confirmPayment(TossConfirmRequest request) {
 
         String url = properties.getBaseUrl() + "/v1/payments/confirm";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        // secret-key: (Basic Auth 형식)
+
+        // secret-key
         headers.setBasicAuth(properties.getSecretKey(), "");
 
         HttpEntity<TossConfirmRequest> entity = new HttpEntity<>(request, headers);
