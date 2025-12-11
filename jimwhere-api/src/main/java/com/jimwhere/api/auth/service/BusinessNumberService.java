@@ -31,10 +31,12 @@ public class BusinessNumberService {
 
         boolean valid = validateBusiness(request);
 
+        String normalizedBno = normalizeNumber(request.getBno());
+
         if (!valid) {
             return BusinessValidationResponse.builder()
                     .valid(false)
-                    .bno(request.getBno())
+                    .bno(normalizedBno)
                     .pName(request.getPName())
                     .startDt(request.getStartDt())
                     .build();
@@ -44,7 +46,7 @@ public class BusinessNumberService {
 
         return BusinessValidationResponse.builder()
                 .valid(true)
-                .bno(request.getBno())
+                .bno(normalizedBno)
                 .pName(request.getPName())
                 .startDt(request.getStartDt())
                 .taxType(asText(status, "tax_type"))
@@ -60,6 +62,8 @@ public class BusinessNumberService {
         String url =
                 "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=" + serviceKey;
 
+        String bno = normalizeNumber(request.getBno());
+
         String body = """
                 {
                   "businesses": [
@@ -71,7 +75,7 @@ public class BusinessNumberService {
                   ]
                 }
                 """.formatted(
-                request.getBno(),
+                bno,
                 request.getStartDt(),
                 request.getPName()
         );
@@ -95,11 +99,14 @@ public class BusinessNumberService {
 
         String url = "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + serviceKey;
 
+        bno = normalizeNumber(bno);
+
         ObjectNode root = objectMapper.createObjectNode();
         ArrayNode arr = objectMapper.createArrayNode();
 
         arr.add(bno); //객체가 아니라 문자열 배열
         root.set("b_no", arr);
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -139,5 +146,10 @@ public class BusinessNumberService {
 
     private String asText(JsonNode node, String key) {
         return node.has(key) ? node.get(key).asText() : null;
+    }
+
+    private String normalizeNumber(String value) {
+        if (value == null) return null;
+        return value.replaceAll("-", "");
     }
 }

@@ -48,10 +48,8 @@ public class SmsService {
         message.setTo(phone);
         message.setText(
                         "[JimWhere 인증]\n" +
-                        "----------------------\n" +
                         "인증번호: " + code + "\n" +
-                        "유효시간: 5분\n" +
-                        "----------------------\n");
+                        "유효시간: 5분\n");
 
         try {
             messageService.send(message);

@@ -21,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -163,6 +165,38 @@ public class AuthController {
                 .body(ApiResponse.success(body));
     }
 
+
+    // 아이디 중복체크 1차검증
+    @PostMapping("/check-duplicate-id")
+    public ResponseEntity<ApiResponse<Boolean>> checkDuplicateId(@RequestBody Map<String, String> request) {
+
+        String userId = request.get("userId");
+        boolean exists = userRepository.existsByUserId(userId);
+
+        return ResponseEntity.ok(ApiResponse.success(exists));
+    }
+
+    // 전화번호 중복체크 1차검증
+    @PostMapping("/check-duplicate-phone")
+    public ResponseEntity<ApiResponse<Boolean>> checkDuplicatePhone(@RequestBody Map<String, String> request) {
+        String phone = request.get("phone");
+
+        boolean exists = userRepository.existsByUserPhoneNumber(phone);
+
+        return ResponseEntity.ok(ApiResponse.success(exists));
+    }
+
+    // 사업자번호 중복체크 1차검증
+    @PostMapping("/check-duplicate-business")
+    public ResponseEntity<ApiResponse<Boolean>> checkDuplicateBusiness(@RequestBody Map<String, String> request) {
+
+        String bno = request.get("businessNumber");
+        String normalized = bno.replaceAll("[^0-9]", "");
+
+        boolean exists = userRepository.existsByUserBusinessNumber(normalized);
+
+        return ResponseEntity.ok(ApiResponse.success(exists));
+    }
 
 
 }
