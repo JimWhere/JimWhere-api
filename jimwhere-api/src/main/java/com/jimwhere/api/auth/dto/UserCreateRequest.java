@@ -16,5 +16,7 @@ public class UserCreateRequest {
     private final String userPhoneNumber;
     private final String userBusinessNumber;
     private final String pName;
+
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "개업일자는 yyyy-MM-dd 형식이어야 합니다.")
     private final String startDt;
 }

@@ -102,20 +102,19 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var c = new CorsConfiguration();
-
-        c.setAllowedOriginPatterns(List.of(
+        // VSCode Live Server / 로컬 프론트들
+        c.setAllowedOriginPatterns(java.util.List.of(
                 "http://localhost:*",
                 "http://127.0.0.1:*",
                 "http://localhost:5173"
         ));
-
-        c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        c.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        c.setExposedHeaders(List.of("Authorization"));
+        c.setAllowedMethods(java.util.List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
+        c.setAllowedHeaders(java.util.List.of("Authorization","Content-Type","X-Requested-With"));
+        c.setExposedHeaders(java.util.List.of("Authorization", "Set-Cookie"));
         c.setAllowCredentials(true);
         c.setMaxAge(3600L);
 
-        var source = new UrlBasedCorsConfigurationSource();
+        var source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", c);
         return source;
     }

@@ -17,6 +17,8 @@ public class UserResponse {
     private final String userBusinessNumber;
     private final String pName;
     private final String startDt;
+    private final String createdAt;
+    private final String updatedAt;
     private final UserRole role;
     private final UserStatus status;
 
@@ -26,7 +28,9 @@ public class UserResponse {
         return new UserResponse(
                 u.getUserCode(),u.getUserId(),
                 u.getUserPhoneNumber(),u.getUserBusinessNumber(),
-                u.getPName(),u.getStartDt(),
+                u.getPName(),u.getStartDt().toString(),
+                u.getCreatedAt().toString(),
+                u.getUpdatedAt() == null ? null : u.getUpdatedAt().toString(),
                 u.getRole(),u.getStatus()
         );
     }

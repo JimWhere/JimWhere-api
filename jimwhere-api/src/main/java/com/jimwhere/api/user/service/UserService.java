@@ -23,11 +23,25 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public PageResponse<UserResponse> findAll(Pageable pageable) {
+    public PageResponse<UserResponse> findAll(Pageable pageable , String status) {
 
-        Page<UserResponse> page = userRepository.findAll(pageable)
-                .map(UserResponse::from);
+        Page<User> usersPage;
 
+        // 상태 필터 없는 경우 전체 조회
+        if (status == null || status.isBlank()) {
+            usersPage = userRepository.findAll(pageable);
+        }
+        // 상태 값이 올바르게 들어온 경우 상태별 조회
+        else {
+            try {
+                UserStatus statusEnum = UserStatus.valueOf(status);
+                usersPage = userRepository.findByStatus(statusEnum, pageable);
+            } catch (IllegalArgumentException e) {
+                throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT, "잘못된 상태값입니다.");
+            }
+        }
+
+        Page<UserResponse> page = usersPage.map(UserResponse::from);
         return PageResponse.of(page);
     }
 
@@ -72,30 +86,41 @@ public class UserService {
 
     @Transactional
     public void updateUserAdminSettings(long userCode, UserUpdateRequest request) {
+
+        User foundUser = userRepository.findById(userCode)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_USER_ID));
+
         String rawStatus = request.getStatus();
         String rawRole = request.getRole();
 
-        if ("".equals(rawStatus) || "".equals(rawRole)) {
-            throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT);
+        // 아무 값도 없는 경우 → 에러
+        if ((rawStatus == null || rawStatus.isBlank()) &&
+                (rawRole == null || rawRole.isBlank())) {
+            throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT,
+                    "변경할 값을 하나 이상 입력해야 합니다.");
         }
 
-        if (rawStatus == null && rawRole == null) {
-            throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT , "변경할 값을 입력해야 합니다");
+
+        // STATUS 수정
+        if (rawStatus != null && !rawStatus.isBlank()) {
+            try {
+                UserStatus statusEnum = UserStatus.valueOf(rawStatus);
+                foundUser.modifyUserStatus(statusEnum);
+            } catch (Exception e) {
+                throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT,
+                        "잘못된 상태(status) 값입니다.");
+            }
         }
 
-        User foundUser = userRepository.findById(userCode)
-                .orElseThrow(() ->new CustomException(ErrorCode.INVALID_USER_ID));
-
-
-        if (rawStatus != null) {
-            UserStatus statusEnum = UserStatus.valueOf(rawStatus);
-            foundUser.modifyUserStatus(statusEnum);
+        // ROLE 수정
+        if (rawRole != null && !rawRole.isBlank()) {
+            try {
+                UserRole roleEnum = UserRole.valueOf(rawRole);
+                foundUser.modifyUserRole(roleEnum);
+            } catch (Exception e) {
+                throw new CustomException(ErrorCode.INVALID_INCORRECT_FORMAT,
+                        "잘못된 역할(role) 값입니다.");
+            }
         }
-
-        if (rawRole != null) {
-            UserRole roleEnum = UserRole.valueOf(rawRole);
-            foundUser.modifyUserRole(roleEnum);
-        }
-
     }
 }

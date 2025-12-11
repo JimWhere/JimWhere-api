@@ -26,8 +26,11 @@ public class UserController {
 
     // 관리자: 전체 유저 조회
     @GetMapping("/admin/users")
-    public ResponseEntity<ApiResponse<PageResponse<UserResponse>>> getAllUsers(Pageable pageable) {
-        PageResponse<UserResponse> response = userService.findAll(pageable);
+    public ResponseEntity<ApiResponse<PageResponse<UserResponse>>> getAllUsers(
+            @RequestParam(required = false) String status,
+            Pageable pageable
+    ) {
+        PageResponse<UserResponse> response = userService.findAll(pageable, status);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -37,7 +40,7 @@ public class UserController {
             @AuthenticationPrincipal CustomUser customUser) {
 
         if (customUser == null) {
-            throw new CustomException(ErrorCode.NULL_UNAUTHORIZED);
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
 
         String username = customUser.getUsername();

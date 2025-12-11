@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Builder
@@ -44,13 +46,18 @@ public class User extends BaseTimeEntity {
     private String pName; // 사업자대표명
 
     @Column(name = "start_dt", nullable = false)
-    private String startDt; // 개업일자
+    private LocalDate startDt; // 개업일자
 
 
     // 기본값 세팅을 위한 유저생성 메서드
     public static User createUser(
-            String userId, String password, String userPhoneNumber, String userBusinessNumber
-    ,String pName, String startDt){
+            String userId,
+            String password,
+            String userPhoneNumber,
+            String userBusinessNumber,
+            String pName,
+            LocalDate startDt
+    ) {
 
         return User.builder()
                 .userId(userId)
@@ -58,16 +65,17 @@ public class User extends BaseTimeEntity {
                 .userPhoneNumber(userPhoneNumber)
                 .userBusinessNumber(userBusinessNumber)
                 .pName(pName)
-                .startDt(startDt)
+                .startDt(startDt)   // ⭐ LocalDate 그대로 전달 OK
                 .role(UserRole.USER)
                 .status(UserStatus.Y)
                 .build();
     }
 
+
     // 어드민 생성
     public static User createAdmin(
             String userId, String password, String phone, String businessNumber,
-            String pName, String startDt
+            String pName, LocalDate startDt
     ) {
         return User.builder()
                 .userId(userId)
@@ -80,8 +88,6 @@ public class User extends BaseTimeEntity {
                 .status(UserStatus.Y)
                 .build();
     }
-
-
 
     public void updatePhone(String newPhoneNumber) {
         this.userPhoneNumber = newPhoneNumber;

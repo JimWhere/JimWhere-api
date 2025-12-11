@@ -32,7 +32,8 @@ public enum ErrorCode {
 
     ROOM_ALREADY_EXISTS("3000", "이미 존재하는 방 이름입니다.", HttpStatus.BAD_REQUEST),
     ROOM_NOT_FOUND("3001", "해당 방을 찾을수 없습니다.", HttpStatus.BAD_REQUEST),
-    ROOM_NOT_EMPTY("3002", "방에 박스가 남아 있어 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
+    ROOM_NOT_EMPTY("3002", "방에 박스가 남아 있어 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    UNAUTHORIZED("401","만료된 토큰" ,HttpStatus.UNAUTHORIZED );
 
 
     private final String code;

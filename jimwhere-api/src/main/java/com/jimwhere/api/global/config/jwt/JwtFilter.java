@@ -79,7 +79,7 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
-            setErrorResponse(response, ErrorCode.INVALID_OR_EXPIRED_QR, "토큰이 만료되었습니다.");
+            setErrorResponse(response, ErrorCode.UNAUTHORIZED, "토큰이 만료되었습니다.");
         } catch (MalformedJwtException e) {
             setErrorResponse(response, ErrorCode.INVALID_REQUEST, "유효하지 않은 토큰입니다.");
         } catch (JwtException e) {

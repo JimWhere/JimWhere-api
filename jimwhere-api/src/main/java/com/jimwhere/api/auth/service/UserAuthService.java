@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class UserAuthService {
@@ -20,7 +22,6 @@ public class UserAuthService {
 
 
     public void createUser(UserCreateRequest request) {
-
 
         String normalizedPhone = normalizeNumber(request.getUserPhoneNumber());
         String normalizedBusiness = normalizeNumber(request.getUserBusinessNumber());
@@ -41,15 +42,13 @@ public class UserAuthService {
                 normalizedPhone,
                 normalizedBusiness,
                 request.getPName(),
-                request.getStartDt()
+                LocalDate.parse(request.getStartDt())
         );
 
         userRepository.save(user);
     }
 
 
-
-    // 어드민 생성
     public void createAdmin(UserCreateRequest request) {
 
         String normalizedPhone = normalizeNumber(request.getUserPhoneNumber());
@@ -71,7 +70,7 @@ public class UserAuthService {
                 .userPhoneNumber(normalizedPhone)
                 .userBusinessNumber(normalizedBusiness)
                 .pName(request.getPName())
-                .startDt(request.getStartDt())
+                .startDt(LocalDate.parse(request.getStartDt()))
                 .role(UserRole.ADMIN)
                 .status(UserStatus.Y)
                 .build();

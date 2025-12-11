@@ -40,7 +40,7 @@ public class AuthController {
     private final long REFRESH_TOKEN_EXPIRE = 1000 * 60 * 60; // 1시간
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<String>> registUser(@RequestBody UserCreateRequest request){
+    public ResponseEntity<ApiResponse<String>> registUser(@Valid @RequestBody UserCreateRequest request){
 
         userAuthService.createUser(request);
 
@@ -55,7 +55,8 @@ public class AuthController {
         String userId = request.getUserId();
         String password = request.getPassword();
 
-        User user = userRepository.findByUserId(userId).orElse(null);
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_USER_ID));
         // 소프트 삭제된 계정(status = N) 체크
         if (user.getStatus() == UserStatus.N) {
             throw new CustomException(ErrorCode.INVALID_USER_ID,"탈퇴 된 회원입니다");
