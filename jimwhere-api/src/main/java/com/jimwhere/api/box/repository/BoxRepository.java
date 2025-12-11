@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 public interface BoxRepository extends JpaRepository<Box, Long> {
     List<Box> findByRoomRoomCode(Long roomCode);
     long countByRoomRoomCodeAndBoxPossibleStatus(Long roomCode, String boxPossibleStatus);
+    boolean existsByRoomRoomCode(Long roomCode);
 
     @Query("SELECT COALESCE(SUM(b.boxCurrentCount), 0) FROM Box b WHERE b.room.roomCode = :roomCode")
     Long sumBoxCurrentCountByRoomCode(@Param("roomCode") Long roomCode);
