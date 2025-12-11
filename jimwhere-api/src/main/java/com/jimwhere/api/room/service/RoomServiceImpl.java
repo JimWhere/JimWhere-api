@@ -1,5 +1,6 @@
 package com.jimwhere.api.room.service;
 
+import com.jimwhere.api.box.repository.BoxRepository;
 import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.room.domain.Room;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+    private final BoxRepository boxRepository;
 
     @Override
     public RoomDto.Response createRoom(RoomDto.CreateRequest request) {
@@ -85,8 +87,17 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void deleteRoom(Long roomCode) {
+        // 1) 방 존재 확인
         Room room = roomRepository.findById(roomCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+        // 2) 해당 방에 박스가 있는지 확인 (BoxRepository 필요)
+        boolean boxExists = boxRepository.existsByRoomRoomCode(roomCode);
+        if (boxExists) {
+            throw new CustomException(ErrorCode.ROOM_NOT_EMPTY);
+        }
+        
+        // 3) 삭제 수행
         roomRepository.delete(room);
     }
 

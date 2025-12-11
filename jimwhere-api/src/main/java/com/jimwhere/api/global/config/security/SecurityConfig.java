@@ -4,6 +4,7 @@ import com.jimwhere.api.global.config.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -54,6 +55,10 @@ public class SecurityConfig {
                                 ).permitAll()
 
                                 .requestMatchers(
+                                        HttpMethod.DELETE, "/api/v1/room/**"
+                                ).permitAll()
+                                
+                                .requestMatchers(
                                         "/api/v1/access/**",
                                         "/api/v1/alarms/**",
                                         "/api/v1/room/**",
@@ -64,11 +69,11 @@ public class SecurityConfig {
                                         "/api/v1/user/payments/**",
                                         "/api/v1/paymentHistories/**",
                                         "/api/v1/reservations/**",
-                                        "/api/v1/room/**",
                                         "/api/v1/entry/**",
                                         "/api/v1/users/**"
 
-                                ).permitAll()
+                                ).
+                                permitAll()
 
                                 // Swagger 공개
                                 .requestMatchers(

@@ -31,7 +31,8 @@ public enum ErrorCode {
     BOX_NOT_FOUND("5001", "잘못된 박스 ID입니다", HttpStatus.NOT_FOUND),
 
     ROOM_ALREADY_EXISTS("3000", "이미 존재하는 방 이름입니다.", HttpStatus.BAD_REQUEST),
-    ROOM_NOT_FOUND("3001", "해당 방을 찾을수 없습니다.", HttpStatus.BAD_REQUEST);
+    ROOM_NOT_FOUND("3001", "해당 방을 찾을수 없습니다.", HttpStatus.BAD_REQUEST),
+    ROOM_NOT_EMPTY("3002", "방에 박스가 남아 있어 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST);
 
 
     private final String code;
