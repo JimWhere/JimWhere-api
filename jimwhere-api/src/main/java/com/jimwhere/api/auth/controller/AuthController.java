@@ -5,10 +5,12 @@ import com.jimwhere.api.auth.model.TokenResponse;
 import com.jimwhere.api.auth.service.UserAuthService;
 import com.jimwhere.api.global.config.jwt.JwtTokenProvider;
 import com.jimwhere.api.global.config.jwt.RefreshTokenService;
+import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.auth.dto.UserCreateRequest;
+import com.jimwhere.api.user.domain.UserStatus;
 import com.jimwhere.api.user.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +56,10 @@ public class AuthController {
         String password = request.getPassword();
 
         User user = userRepository.findByUserId(userId).orElse(null);
+        // 소프트 삭제된 계정(status = N) 체크
+        if (user.getStatus() == UserStatus.N) {
+            throw new CustomException(ErrorCode.INVALID_USER_ID,"탈퇴 된 회원입니다");
+        }
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

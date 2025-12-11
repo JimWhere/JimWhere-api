@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -47,50 +48,42 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
-            String authHeader = request.getHeader("Authorization");
+            String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-                String token = authHeader.substring(7);
+            String token = authHeader.substring(7);
 
-                // 토큰 검증 (예외 발생 시 catch로 감)
-                jwtTokenProvider.validateTokenOrThrow(token);
+            jwtTokenProvider.validateTokenOrThrow(token);
 
-                // username 추출
-                String username = jwtTokenProvider.getUsername(token);
+            String username = jwtTokenProvider.getUsername(token);
 
-                var userDetails = customUserDetailsService.loadUserByUsername(username);
+            var userDetails = customUserDetailsService.loadUserByUsername(username);
 
-                var authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+            var authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+            authentication.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request)
+            );
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
             setErrorResponse(response, ErrorCode.INVALID_OR_EXPIRED_QR, "토큰이 만료되었습니다.");
-
-        } catch (SecurityException e) {  // 시그니처 불일치, 변조됨
-            setErrorResponse(response, ErrorCode.INVALID_REQUEST, "서명이 올바르지 않습니다.");
-
-        } catch (MalformedJwtException e) {  // 형식이 잘못된 토큰
-            setErrorResponse(response, ErrorCode.INVALID_REQUEST, "유효하지 않은 토큰 형식입니다.");
-
-        } catch (JwtException e) {   // 기타 모든 JWT 오류
+        } catch (MalformedJwtException e) {
+            setErrorResponse(response, ErrorCode.INVALID_REQUEST, "유효하지 않은 토큰입니다.");
+        } catch (JwtException e) {
             setErrorResponse(response, ErrorCode.INVALID_REQUEST, "잘못된 JWT 토큰입니다.");
-
         }
     }
 
