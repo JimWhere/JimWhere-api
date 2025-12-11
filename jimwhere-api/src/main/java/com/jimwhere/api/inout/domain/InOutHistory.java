@@ -2,6 +2,7 @@ package com.jimwhere.api.inout.domain;
 
 import com.jimwhere.api.access.domain.AccessHistory;
 import com.jimwhere.api.box.domain.Box;
+import com.jimwhere.api.global.model.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +22,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 
-public class InOutHistory {
+public class InOutHistory extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long inOutHistoryCode;

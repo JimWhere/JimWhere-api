@@ -5,6 +5,7 @@ import com.jimwhere.api.user.domain.User;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccessHistoryRepository extends JpaRepository<AccessHistory,Long> {
@@ -12,5 +13,6 @@ public interface AccessHistoryRepository extends JpaRepository<AccessHistory,Lon
 
 
   Page<AccessHistory> findByUser(User user, Pageable pageable);
-
+  @EntityGraph(attributePaths = "user")
+  Page<AccessHistory> findAll(Pageable pageable);
 }

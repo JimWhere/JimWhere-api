@@ -2,6 +2,7 @@ package com.jimwhere.api.access.controller;
 
 
 import com.jimwhere.api.access.dto.request.CreateAccessHistoryRequest;
+import com.jimwhere.api.access.dto.response.AccessHistoryAllResponse;
 import com.jimwhere.api.access.dto.response.AccessHistoryDetailResponse;
 import com.jimwhere.api.access.dto.response.AccessHistoryResponse;
 import com.jimwhere.api.access.service.AccessHistoryService;
@@ -61,12 +62,12 @@ public class AccessHistoryController {
     return ApiResponse.success(PageResponse.of(accessHistoryList));
   }
   @GetMapping("/admin/access/history")
-  public  ApiResponse<PageResponse<AccessHistoryResponse>>getAccessListAll(@PageableDefault Pageable pageable,
+  public  ApiResponse<PageResponse<AccessHistoryAllResponse>>getAccessListAll(@PageableDefault Pageable pageable,
       @AuthenticationPrincipal CustomUser user) {
-    Page<AccessHistoryResponse> accessHistoryList=accessHistoryService.getAccessHistoryListAll(pageable);
+    Page<AccessHistoryAllResponse> accessHistoryList=accessHistoryService.getAccessHistoryListAll(pageable);
     return ApiResponse.success(PageResponse.of(accessHistoryList));
   }
-  @GetMapping("/user/access/history/{accessHistoryCode}")
+  @GetMapping("/access/history/{accessHistoryCode}")
   public ResponseEntity<ApiResponse<AccessHistoryDetailResponse>> selectAccessHistoryByCode(
       @PathVariable Long accessHistoryCode
   ) {

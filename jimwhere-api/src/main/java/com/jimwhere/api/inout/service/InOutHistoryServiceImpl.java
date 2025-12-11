@@ -8,6 +8,7 @@ import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.inout.domain.InOutHistory;
 import com.jimwhere.api.inout.domain.InOutType;
 import com.jimwhere.api.inout.dto.request.UpdateInOutHistoryRequest;
+import com.jimwhere.api.inout.dto.response.InOutHistoryAllResponse;
 import com.jimwhere.api.inout.dto.response.InOutHistoryResponse;
 import com.jimwhere.api.inout.repository.InOutHistoryRepository;
 import com.jimwhere.api.user.domain.User;
@@ -56,9 +57,9 @@ public class InOutHistoryServiceImpl implements InOutHistoryService {
     return page.map(InOutHistoryResponse::from);
   }
   @Override
-  public Page<InOutHistoryResponse> findInOutHistoryListAll(Pageable pageable) {
-    Page<InOutHistory> page =
-        inOutHistoryRepository.findAll( pageable);
-    return page.map(InOutHistoryResponse::from);
+  public Page<InOutHistoryAllResponse> findInOutHistoryListAll(Pageable pageable) {
+    Page<InOutHistoryAllResponse> page =
+        inOutHistoryRepository.findAllWithUser(pageable);
+    return page;
   }
 }
