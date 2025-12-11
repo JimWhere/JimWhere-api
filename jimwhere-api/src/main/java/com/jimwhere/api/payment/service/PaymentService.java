@@ -15,6 +15,7 @@ import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +45,10 @@ public class PaymentService {
         }
 
         // 2) orderId = 예약코드(Long) 문자열
-        String orderId = String.format("JW_%06d", reservation.getReservationCode());
+        String baseOrderId = String.format("JW_%06d", reservation.getReservationCode());
+        String orderId = baseOrderId + "_" + UUID.randomUUID();   // 항상 유니크
         reservation.updateOrderId(orderId);
+        reservationRepository.save(reservation);
 
         // 3) 주문명 = 창고/룸 이름
         String orderName = reservation.getRoom().getRoomName();
