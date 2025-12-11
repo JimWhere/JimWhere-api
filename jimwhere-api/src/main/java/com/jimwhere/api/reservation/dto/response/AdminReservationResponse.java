@@ -19,6 +19,9 @@ public class AdminReservationResponse {
     private String orderId;
     private LocalDateTime createdAt;
 
+    private String ownerName;
+    private String businessNumber;
+
     public static AdminReservationResponse from(Reservation reservation) {
         return new AdminReservationResponse(
                 reservation.getReservationCode(),
@@ -28,7 +31,9 @@ public class AdminReservationResponse {
                 reservation.getEndAt(),
                 reservation.getReservationAmount(),
                 reservation.getOrderId(),
-                reservation.getCreatedAt()
+                reservation.getCreatedAt(),
+                reservation.getUser().getPName(),
+                reservation.getUser().getUserBusinessNumber()
         );
     }
 }

@@ -51,7 +51,7 @@ public class Reservation extends BaseTimeEntity {
     @Column(name = "reservation_amount", nullable = false)
     private Long reservationAmount;
 
-    @Column(name = "order_id") // CRUD 테스트 때문에 임시로 nullable = false 제거
+    @Column(name = "order_id")
     private String orderId;
 
 

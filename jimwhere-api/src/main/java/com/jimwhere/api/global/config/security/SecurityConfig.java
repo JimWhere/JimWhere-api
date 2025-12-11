@@ -61,10 +61,9 @@ public class SecurityConfig {
                                         "/api/v1/inquiry/**",
                                         "/api/v1/notice/**",
                                         "/tossApi/**",
-                                        "/api/v1/user/payments/**",
+                                        "/api/v1/payments/**",
                                         "/api/v1/paymentHistories/**",
                                         "/api/v1/reservations/**",
-                                        "/api/v1/room/**",
                                         "/api/v1/entry/**",
                                         "/api/v1/users/**"
 
