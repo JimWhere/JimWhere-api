@@ -113,6 +113,7 @@ public class RoomServiceImpl implements RoomService {
                 .roomWidth(r.getRoomWidth())
                 .roomLength(r.getRoomLength())
                 .roomHeight(r.getRoomHeight())
+                .userCode(r.getUserCode())
                 .createdAt(r.getCreatedAt())
                 .updatedAt(r.getUpdatedAt())
                 .build();
