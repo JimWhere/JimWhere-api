@@ -56,7 +56,7 @@ public class PaymentHistoryController {
         return ApiResponse.success(PageResponse.of(page));
     }
 
-    // ADMIN — 상세
+    // ADMIN 상세
     @GetMapping("/admin/paymentHistories/{paymentHistoryCode}")
     public ApiResponse<PaymentHistoryResponse> getPaymentHistoryDetailForAdmin(
             @PathVariable Long paymentHistoryCode
