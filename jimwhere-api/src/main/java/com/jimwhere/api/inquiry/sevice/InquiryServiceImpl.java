@@ -72,18 +72,12 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
+    @Transactional
     public InquiryResponse getInquiry(Long inquiryCode) {
         Inquiry inquiry = inquiryRepository.findByInquiryCodeAndIsDeletedFalse(inquiryCode)
                 .orElseThrow(() -> new CustomException(ErrorCode.INQUIRY_NOT_FOUND));
 
-        return new InquiryResponse(
-                inquiry.getInquiryCode(),
-                inquiry.getInquiryTitle(),
-                inquiry.getInquiryContent(),
-                inquiry.getCreatedAt(),
-                inquiry.getInquiryAnswer(),
-                inquiry.getAnsweredAt()
-        );
+        return InquiryResponse.form(inquiry);
     }
 
     @Override
