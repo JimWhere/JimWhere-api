@@ -19,15 +19,6 @@ public class PaymentController {
 
 
     // 결제 준비
-    // 유저 토큰 배제
-
-//    @PostMapping("/init")
-//    public ApiResponse<TossInitResponse> initPayment(@RequestBody TossInitRequest request) {
-//        TossInitResponse response = paymentService.initPayment(request);
-//        return ApiResponse.success(response);
-//    }
-
-    // [수정 후] 로그인 유저 기준으로 결제 시작
     @PostMapping("/init")
     public ApiResponse<TossInitResponse> initPayment(
             @RequestBody TossInitRequest request,
@@ -38,14 +29,7 @@ public class PaymentController {
         return ApiResponse.success(response);
     }
 
-//    // 결제 성공 후 confirm
-//    @PostMapping("/success")
-//    public ApiResponse<TossConfirmResponse> confirmPayment(@RequestBody TossConfirmRequest request) {
-//        TossConfirmResponse response = paymentService.confirmPayment(request);
-//        return ApiResponse.success(response);
-//    }
-
-    //(수정 후) 로그인 유저 기준으로 결제 확정
+    //  결제 확정
     @PostMapping("/success")
     public ApiResponse<TossConfirmResponse> confirmPayment(
             @RequestBody TossConfirmRequest request,
