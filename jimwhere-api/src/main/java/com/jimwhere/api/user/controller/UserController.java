@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -33,6 +35,16 @@ public class UserController {
         PageResponse<UserResponse> response = userService.findAll(pageable, status);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+
+    @GetMapping("/admin/users/stat")
+    public ResponseEntity<ApiResponse<Map<String, Long>>> getUserStatistics() {
+
+        Map<String, Long> stats = userService.getUserStatistics();
+
+        return ResponseEntity.ok(ApiResponse.success(stats));
+    }
+
 
     // 사용자: 내 정보 조회
     @GetMapping("/user/users/me")

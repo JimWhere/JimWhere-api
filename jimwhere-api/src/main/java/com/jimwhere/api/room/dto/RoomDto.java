@@ -41,6 +41,7 @@ public class RoomDto {
         private Long roomWidth;
         private Long roomLength;
         private Long roomHeight;
+        private Long userCode;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }

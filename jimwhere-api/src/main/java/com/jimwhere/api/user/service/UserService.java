@@ -16,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -123,4 +126,21 @@ public class UserService {
             }
         }
     }
+
+
+    public Map<String, Long> getUserStatistics() {
+
+        long total = userRepository.count();            // 전체
+        long active = userRepository.countByStatus(UserStatus.Y);  // 활성
+        long inactive = userRepository.countByStatus(UserStatus.N); // 삭제 or 정지
+
+        Map<String, Long> result = new HashMap<>();
+        result.put("total", total);
+        result.put("active", active);
+        result.put("inactive", inactive);
+
+        return result;
+    }
+
+
 }

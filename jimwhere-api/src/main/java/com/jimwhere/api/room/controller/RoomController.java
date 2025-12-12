@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/room")
@@ -45,6 +46,14 @@ public class RoomController {
     public ResponseEntity<ApiResponse<Void>> deleteRoom(@PathVariable Long roomCode) {
         roomService.deleteRoom(roomCode);
         return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+
+    // 방 코드 (타입별) 뽑아오기
+    @GetMapping("/rooms/stat")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getRoomStats() {
+        Map<String, Object> stats = roomService.getRoomStats();
+        return ResponseEntity.ok(ApiResponse.success(stats));
     }
 
 }

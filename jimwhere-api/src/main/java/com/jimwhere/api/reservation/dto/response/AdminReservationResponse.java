@@ -2,6 +2,7 @@ package com.jimwhere.api.reservation.dto.response;
 
 import com.jimwhere.api.reservation.domain.Reservation;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

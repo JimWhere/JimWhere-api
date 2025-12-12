@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUserId(String userId);
     Page<User> findByStatus(UserStatus status, Pageable pageable);
+    long countByStatus(UserStatus status);
 
     boolean existsByUserId(String userId);
     boolean existsByUserPhoneNumber(String userPhoneNumber);

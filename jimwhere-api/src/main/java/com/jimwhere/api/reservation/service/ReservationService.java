@@ -4,6 +4,7 @@ import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.reservation.domain.Reservation;
 import com.jimwhere.api.reservation.dto.request.ReservationCreateRequest;
 import com.jimwhere.api.reservation.dto.response.AdminReservationResponse;
+import com.jimwhere.api.reservation.dto.response.DashboardReservationDto;
 import com.jimwhere.api.reservation.dto.response.ReservationResponse;
 import com.jimwhere.api.reservation.repository.ReservationRepository;
 import com.jimwhere.api.room.domain.Room;
@@ -12,9 +13,14 @@ import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -76,4 +82,33 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.INVALID_REQUEST.getMessage()));
         return AdminReservationResponse.from(reservation);
     }
+
+
+    // 관리자 대시보드용 예약 현황 뽑아오기
+    public List<DashboardReservationDto> getLatestReservations(int limit) {
+
+        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "startAt"));
+
+        Page<Reservation> page = reservationRepository.findAll(pageable);
+
+        return page.getContent().stream()
+                .map(reservation -> {
+                    long days = ChronoUnit.DAYS.between(
+                            reservation.getStartAt().toLocalDate(),
+                            reservation.getEndAt().toLocalDate()
+                    );
+
+                    return DashboardReservationDto.builder()
+                            .reservationCode(reservation.getReservationCode())
+                            .roomName(reservation.getRoom().getRoomName())
+                            .startAt(reservation.getStartAt())
+                            .endAt(reservation.getEndAt())
+                            .days(days)
+                            .build();
+                })
+                .toList();
+    }
+
+
+
 }

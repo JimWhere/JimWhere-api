@@ -2,6 +2,7 @@ package com.jimwhere.api.room.service;
 
 import com.jimwhere.api.room.dto.RoomDto;
 import java.util.List;
+import java.util.Map;
 
 public interface RoomService {
     RoomDto.Response createRoom(RoomDto.CreateRequest request);
@@ -9,4 +10,5 @@ public interface RoomService {
     RoomDto.Response getRoom(Long roomCode);
     List<RoomDto.Response> listRooms();
     void deleteRoom(Long roomCode);
+    Map<String, Object> getRoomStats();
 }

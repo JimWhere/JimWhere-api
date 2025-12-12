@@ -5,6 +5,7 @@ import com.jimwhere.api.global.config.security.CustomUser;
 import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.reservation.dto.request.ReservationCreateRequest;
 import com.jimwhere.api.reservation.dto.response.AdminReservationResponse;
+import com.jimwhere.api.reservation.dto.response.DashboardReservationDto;
 import com.jimwhere.api.reservation.dto.response.ReservationResponse;
 import com.jimwhere.api.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -70,4 +73,15 @@ public class ReservationController {
         AdminReservationResponse response = reservationService.getReservationDetailForAdmin(reservationCode);
         return ApiResponse.success(response);
     }
+
+
+    // 관리자 대시보드용
+    @GetMapping("/admin/reservations/latest")
+    public ApiResponse<List<DashboardReservationDto>> getLatestReservations(
+            @RequestParam(defaultValue = "3") int limit
+    ) {
+        return ApiResponse.success(reservationService.getLatestReservations(limit));
+    }
+
+
 }

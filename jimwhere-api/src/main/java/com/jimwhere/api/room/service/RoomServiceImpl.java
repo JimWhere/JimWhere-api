@@ -3,16 +3,21 @@ package com.jimwhere.api.room.service;
 import com.jimwhere.api.box.repository.BoxRepository;
 import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.global.exception.ErrorCode;
+import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.room.domain.Room;
 import com.jimwhere.api.room.dto.RoomDto;
 import com.jimwhere.api.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -112,4 +117,60 @@ public class RoomServiceImpl implements RoomService {
                 .updatedAt(r.getUpdatedAt())
                 .build();
     }
+
+    @Override
+    public Map<String, Object> getRoomStats() {
+        List<Room> rooms = roomRepository.findAll();
+
+        int total = rooms.size();
+        int using = 0;
+
+        int usingA = 0, usingB = 0, usingC = 0;
+        int totalA = 5, totalB = 5, totalC = 5;
+
+        for (Room r : rooms) {
+            boolean isUsing = r.getUserCode() != null;
+            if (isUsing) using++;
+
+            Long code = r.getRoomCode();
+
+            if (code >= 1 && code <= 5) {
+                if (isUsing) usingA++;
+            } else if (code >= 6 && code <= 10) {
+                if (isUsing) usingB++;
+            } else if (code >= 11 && code <= 15) {
+                if (isUsing) usingC++;
+            }
+        }
+
+        int empty = total - using;
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("total", total);
+        result.put("using", using);
+        result.put("empty", empty);
+
+        Map<String, Object> types = new HashMap<>();
+
+        types.put("A", Map.of(
+                "total", totalA,
+                "using", usingA,
+                "empty", totalA - usingA
+        ));
+        types.put("B", Map.of(
+                "total", totalB,
+                "using", usingB,
+                "empty", totalB - usingB
+        ));
+        types.put("C", Map.of(
+                "total", totalC,
+                "using", usingC,
+                "empty", totalC - usingC
+        ));
+
+        result.put("types", types);
+
+        return result;
+    }
+
 }
