@@ -5,27 +5,27 @@ USE jim_where;
 
 -- A 타입 (작은방) : 3000cm x 4000cm x 2500cm
 INSERT INTO room (user_code, room_name, room_width, room_length, room_height, created_at, updated_at) VALUES
-(1, 'A1', 3000, 4000, 2500, NOW(), NOW()),
-(2, 'A2', 3000, 4000, 2500, NOW(), NOW()),
-(3, 'A3', 3000, 4000, 2500, NOW(), NOW()),
-(4, 'A4', 3000, 4000, 2500, NOW(), NOW()),
-(5, 'A5', 3000, 4000, 2500, NOW(), NOW());
+(1, 'A1', 1000, 1000, 2200, NOW(), NOW()),
+(2, 'A2', 1000, 1000, 2200, NOW(), NOW()),
+(3, 'A3', 1000, 1000, 2200, NOW(), NOW()),
+(4, 'A4', 1000, 1000, 2200, NOW(), NOW()),
+(5, 'A5', 1000, 1000, 2200, NOW(), NOW());
 
 -- B 타입 (중간방) : 4000cm x 5000cm x 3000cm
 INSERT INTO room (user_code, room_name, room_width, room_length, room_height, created_at, updated_at) VALUES
-(6, 'B1', 4000, 5000, 3000, NOW(), NOW()),
-(7, 'B2', 4000, 5000, 3000, NOW(), NOW()),
-(8, 'B3', 4000, 5000, 3000, NOW(), NOW()),
-(9, 'B4', 4000, 5000, 3000, NOW(), NOW()),
-(10, 'B5', 4000, 5000, 3000, NOW(), NOW());
+(6, 'B1', 1000, 2000, 2200, NOW(), NOW()),
+(7, 'B2', 1000, 2000, 2200, NOW(), NOW()),
+(8, 'B3', 1000, 2000, 2200, NOW(), NOW()),
+(9, 'B4', 1000, 2000, 2200, NOW(), NOW()),
+(10, 'B5', 1000, 2000, 2200, NOW(), NOW());
 
 -- C 타입 (큰방) : 6000cm x 8000cm x 3500cm
 INSERT INTO room (user_code, room_name, room_width, room_length, room_height, created_at, updated_at) VALUES
-(1, 'C1', 6000, 8000, 3500, NOW(), NOW()),
-(2, 'C2', 6000, 8000, 3500, NOW(), NOW()),
-(3, 'C3', 6000, 8000, 3500, NOW(), NOW()),
-(4, 'C4', 6000, 8000, 3500, NOW(), NOW()),
-(5, 'C5', 6000, 8000, 3500, NOW(), NOW());
+(1, 'C1', 1000, 1500, 3500, NOW(), NOW()),
+(2, 'C2', 1000, 1500, 3500, NOW(), NOW()),
+(3, 'C3', 1000, 1500, 3500, NOW(), NOW()),
+(4, 'C4', 1000, 1500, 3500, NOW(), NOW()),
+(5, 'C5', 1000, 1500, 3500, NOW(), NOW());
 
 -- Sample boxes: assign boxes per room type with content/counts (A:16, B:8, C:4)
 -- A-type (a1..a16) distributed round-robin to room_code 1..5
