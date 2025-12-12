@@ -7,6 +7,8 @@ import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.room.domain.Room;
 import com.jimwhere.api.room.dto.RoomDto;
 import com.jimwhere.api.room.repository.RoomRepository;
+import com.jimwhere.api.user.domain.User;
+import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,6 +29,7 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final BoxRepository boxRepository;
+    private final UserRepository userRepository;
 
     @Override
     public RoomDto.Response createRoom(RoomDto.CreateRequest request) {
@@ -107,6 +110,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     private RoomDto.Response toResponse(Room r) {
+        String userName = null;
+
+        if (r.getUserCode() != null) {
+            userName = userRepository.findById(r.getUserCode())
+                    .map(User::getPName) // 네 User 필드명에 맞게
+                    .orElse(null);
+        }
+
         return RoomDto.Response.builder()
                 .roomCode(r.getRoomCode())
                 .roomName(r.getRoomName())
@@ -114,6 +125,7 @@ public class RoomServiceImpl implements RoomService {
                 .roomLength(r.getRoomLength())
                 .roomHeight(r.getRoomHeight())
                 .userCode(r.getUserCode())
+                .userName(userName)
                 .createdAt(r.getCreatedAt())
                 .updatedAt(r.getUpdatedAt())
                 .build();
