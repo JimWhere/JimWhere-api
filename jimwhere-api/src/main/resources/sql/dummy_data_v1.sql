@@ -30,16 +30,16 @@ INSERT INTO room (user_code, room_name, room_width, room_length, room_height, cr
 -- Sample boxes: assign boxes per room type with content/counts (A:16, B:8, C:4)
 -- A-type (a1..a16) distributed round-robin to room_code 1..5
 INSERT INTO box (box_name, box_possible_status, box_content, box_current_count, box_width, box_length, box_height, created_at, updated_at, room_code) VALUES
-('a1', 'Y', NULL, 70, 100, 100, 100, NOW(), NULL, 1),
-('a2', 'Y', NULL, 80, 100, 100, 100, NOW(), NULL, 2),
+('a1', 'Y', '목걸이', 70, 100, 100, 100, NOW(), NULL, 1),
+('a2', 'Y', NULL, 0, 100, 100, 100, NOW(), NULL, 2),
 ('a3', 'N', '은반지', 50, 100, 100, 100, NOW(), NOW(), 3),
 ('a4', 'N', '금반지', 40, 100, 100, 100, NOW(), NOW(), 4),
 ('a5', 'N', '무테팔찌', 34, 100, 100, 100, NOW(), NOW(), 5),
 ('a6', 'N', '체인팔찌', 20, 100, 100, 100, NOW(), NOW(), 1),
 ('a7', 'N', '이어링', 14, 100, 100, 100, NOW(), NOW(), 2),
 ('a8', 'N', '드롭이어링', 16, 100, 100, 100, NOW(), NOW(), 3),
-('a9', 'Y', NULL, 10, 100, 100, 100, NOW(), NULL, 4),
-('a10', 'Y', NULL, 5, 100, 100, 100, NOW(), NULL, 5),
+('a9', 'Y', NULL, 0, 100, 100, 100, NOW(), NULL, 4),
+('a10', 'Y', NULL, 0, 100, 100, 100, NOW(), NULL, 5),
 ('a11', 'N', '은반지', 25, 100, 100, 100, NOW(), NOW(), 1),
 ('a12', 'N', '금반지', 12, 100, 100, 100, NOW(), NOW(), 2),
 ('a13', 'N', '무테팔찌', 7, 100, 100, 100, NOW(), NOW(), 3),
@@ -48,20 +48,20 @@ INSERT INTO box (box_name, box_possible_status, box_content, box_current_count, 
 ('a16', 'N', '드롭이어링', 1, 100, 100, 100, NOW(), NOW(), 1),
 
 -- B-type (b1..b8) distributed to room_code 6..10
-('b1', 'Y', NULL, 4, 70, 70, 70, NOW(), NULL, 6),
-('b2', 'Y', NULL, 3, 70, 70, 70, NOW(), NULL, 7),
+('b1', 'Y', NULL, 0, 70, 70, 70, NOW(), NULL, 6),
+('b2', 'Y', NULL, 0, 70, 70, 70, NOW(), NULL, 7),
 ('b3', 'Y', '책상다리', 12, 70, 70, 70, NOW(), NOW(), 8),
 ('b4', 'Y', '책꽂이', 5, 70, 70, 70, NOW(), NOW(), 9),
-('b5', 'Y', NULL, 8, 70, 70, 70, NOW(), NULL, 10),
-('b6', 'Y', NULL, 6, 70, 70, 70, NOW(), NULL, 6),
+('b5', 'Y', NULL, 0, 70, 70, 70, NOW(), NULL, 10),
+('b6', 'Y', NULL, 0, 70, 70, 70, NOW(), NULL, 6),
 ('b7', 'Y', '의자다리', 12, 70, 70, 70, NOW(), NOW(), 7),
 ('b8', 'Y', '책상프레임', 2, 70, 70, 70, NOW(), NOW(), 8),
 
 -- C-type (c1..c4) distributed to room_code 11..14 (larger boxes, mostly empty)
-('c1', 'Y', NULL, 5, 50, 50, 50, NOW(), NULL, 11),
-('c2', 'Y', NULL, 7, 50, 50, 50, NOW(), NULL, 12),
-('c3', 'Y', NULL, 3, 50, 50, 50, NOW(), NULL, 13),
-('c4', 'Y', NULL, 8, 50, 50, 50, NOW(), NULL, 14);
+('c1', 'Y', '유리그릇', 5, 50, 50, 50, NOW(), NULL, 11),
+('c2', 'Y', '플라스틱그릇', 7, 50, 50, 50, NOW(), NULL, 12),
+('c3', 'Y', '유리컵', 3, 50, 50, 50, NOW(), NULL, 13),
+('c4', 'Y', '플라스틱컵', 8, 50, 50, 50, NOW(), NULL, 14);
 
 -- Dynamically set box dimensions (cm) based on room type (room_name prefix A/B/C)
 -- Adjust these values if you want different default box sizes per room type.
