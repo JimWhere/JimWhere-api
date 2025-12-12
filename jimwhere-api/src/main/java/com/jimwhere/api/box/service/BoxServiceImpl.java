@@ -7,6 +7,8 @@ import com.jimwhere.api.room.domain.Room;
 import com.jimwhere.api.room.repository.RoomRepository;
 import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.global.exception.CustomException;
+import com.jimwhere.api.user.domain.User;
+import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,9 @@ public class BoxServiceImpl implements BoxService {
 
     private final BoxRepository boxRepository;
     private final RoomRepository roomRepository;
+  private final UserRepository userRepository;
 
-    @Override
+  @Override
     @Transactional(readOnly = true)
     public List<BoxDto.Response> listBoxesByRoom(Long roomCode) {
         // 방 존재 체크 (명확한 에러코드 사용)
@@ -34,7 +37,33 @@ public class BoxServiceImpl implements BoxService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+  @Override
+  @Transactional(readOnly = true)
+  public List<BoxDto.Response> listBoxesByRoom(String userName) {
+      User user=userRepository.findByUserId(userName).orElseThrow(
+          ()->new CustomException(ErrorCode.INVALID_USER_ID)
+      );
+    // 방 존재 체크 (명확한 에러코드 사용)
+    Room room = roomRepository.findByUserCode(user.getUserCode())
+        .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+    List<Box> boxes = boxRepository.findByRoomRoomCode(room.getRoomCode());
+    return boxes.stream()
+        .map(this::toResponse)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<BoxDto.Response> listBoxesByRoomAll() {
+    // 방 존재 체크 (명확한 에러코드 사용)
+    List<Box> boxes = boxRepository.findAll();
+    return boxes.stream()
+        .map(this::toResponse)
+        .collect(Collectors.toList());
+  }
+
+  @Override
     @Transactional(readOnly = true)
     public long countAvailableBoxes(Long roomCode, String boxPossibleStatus) {
         // room 존재 여부 체크
@@ -46,7 +75,22 @@ public class BoxServiceImpl implements BoxService {
         return boxRepository.countByRoomRoomCodeAndBoxPossibleStatus(roomCode, boxPossibleStatus);
     }
 
-    @Override
+  @Override
+  @Transactional(readOnly = true)
+  public long countAvailableBoxes(String userName, String boxPossibleStatus) {
+
+    User user=userRepository.findByUserId(userName).orElseThrow(
+        ()->new CustomException(ErrorCode.INVALID_USER_ID)
+    );
+    // 방 존재 체크 (명확한 에러코드 사용)
+    Room room = roomRepository.findByUserCode(user.getUserCode())
+        .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+    // boxPossibleStatus 예: "Y" 또는 "N"
+    return boxRepository.countByRoomRoomCodeAndBoxPossibleStatus(room.getRoomCode(), boxPossibleStatus);
+  }
+
+  @Override
     @Transactional(readOnly = true)
     public long getTotalBoxCurrentCount(Long roomCode) {
         // 룸 존재 체크
