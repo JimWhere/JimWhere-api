@@ -12,29 +12,32 @@ import java.time.LocalDateTime;
 public class AdminReservationResponse {
 
     private Long reservationCode;
-    private Long userCode;
-    private Long roomCode;
-    private LocalDateTime startAt;
-    private LocalDateTime endAt;
-    private Long reservationAmount;
-    private String orderId;
-    private LocalDateTime createdAt;
-
     private String ownerName;
     private String businessNumber;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
+    private String roomName;
+    private String paymentStatus;
+    private Long reservationAmount;
+    private Long paymentAmount;
 
     public static AdminReservationResponse from(Reservation reservation) {
+
+
+        String paymentStatus = (reservation.getOrderId() == null)
+                ? "PENDING"
+                : "PAID";
+
         return new AdminReservationResponse(
                 reservation.getReservationCode(),
-                reservation.getUser().getUserCode(),
-                reservation.getRoom().getRoomCode(),
+                reservation.getUser().getPName(),
+                reservation.getUser().getUserBusinessNumber(),
                 reservation.getStartAt(),
                 reservation.getEndAt(),
+                reservation.getRoom().getRoomName(),
+                paymentStatus,
                 reservation.getReservationAmount(),
-                reservation.getOrderId(),
-                reservation.getCreatedAt(),
-                reservation.getUser().getPName(),
-                reservation.getUser().getUserBusinessNumber()
+                reservation.getReservationAmount()
         );
     }
 }
