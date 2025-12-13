@@ -1,5 +1,6 @@
 package com.jimwhere.api.reservation.service;
 
+import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.reservation.domain.Reservation;
 import com.jimwhere.api.reservation.dto.request.ReservationCreateRequest;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -33,6 +35,19 @@ public class ReservationService {
 
 
     // USER
+    // 예약 겹침 여부 확인 메소드
+    public boolean existsOverlap(Long roomCode, LocalDateTime startAt, LocalDateTime endAt) {
+
+        // 시작일자가 끝일자보다 앞서있어야하는 유효성 검증
+        if (startAt == null || endAt == null ||
+                !startAt.isBefore(endAt)) {
+                throw new CustomException(ErrorCode.INVALID_REQUEST);
+        }
+
+        return reservationRepository
+                .existsByRoomRoomCodeAndStartAtLessThanAndEndAtGreaterThan(roomCode, endAt, startAt);
+    }
+        
     @Transactional
     public ReservationResponse createReservation(String username, ReservationCreateRequest request) {
 
