@@ -11,7 +11,6 @@ import com.jimwhere.api.inout.dto.request.UpdateInOutHistoryRequest;
 import com.jimwhere.api.inout.dto.response.InOutHistoryAllResponse;
 import com.jimwhere.api.inout.dto.response.InOutHistoryResponse;
 import com.jimwhere.api.inout.repository.InOutHistoryRepository;
-import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,18 +47,31 @@ public class InOutHistoryServiceImpl implements InOutHistoryService {
   }
 
   @Override
-  public Page<InOutHistoryResponse> findInOutHistoryList(Pageable pageable, String userName) {
-    User user=userRepository.findByUserId(userName)
-        .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID));
+  public Page<InOutHistoryResponse> findInOutHistoryList(      Long roomCode,
+       String boxName,
+      String userName,
+      InOutType inOutType,
+     String inOutName,
+     Long inOutHistoryCode,Pageable pageable) {
 
-    Page<InOutHistory> page =
-        inOutHistoryRepository.findByAccessHistory_User(user, pageable);
-    return page.map(InOutHistoryResponse::from);
+    Long userCode=userRepository.findByUserId(userName)
+        .orElseThrow(()->new CustomException(ErrorCode.INVALID_USER_ID)).getUserCode();
+
+    Page<InOutHistoryResponse> page =
+        inOutHistoryRepository.findUser( roomCode,
+             boxName,
+            userCode,
+             inOutType,
+              inOutName,
+            inOutHistoryCode,pageable);
+    return page;
   }
   @Override
-  public Page<InOutHistoryAllResponse> findInOutHistoryListAll(Pageable pageable) {
+  public Page<InOutHistoryAllResponse> findInOutHistoryListAll(  Long roomCode,
+      String boxName,
+      String userId,Pageable pageable) {
     Page<InOutHistoryAllResponse> page =
-        inOutHistoryRepository.findAllWithUser(pageable);
+        inOutHistoryRepository.findAllWithUser(roomCode,boxName,userId,pageable);
     return page;
   }
 }

@@ -4,6 +4,7 @@ import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.global.config.security.CustomUser;
 
 import com.jimwhere.api.global.model.ApiResponse;
+import com.jimwhere.api.inout.domain.InOutType;
 import com.jimwhere.api.inout.dto.request.UpdateInOutHistoryRequest;
 import com.jimwhere.api.inout.dto.response.InOutHistoryAllResponse;
 import com.jimwhere.api.inout.dto.response.InOutHistoryResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,21 +43,33 @@ public class InOutHistoryController {
 
   @GetMapping("/user/inout/history")
   public ApiResponse<PageResponse<InOutHistoryResponse>> findInOutHistoryList(
-      @PageableDefault Pageable pageable,
-      @AuthenticationPrincipal CustomUser user
+      @AuthenticationPrincipal CustomUser user,
+      @RequestParam(required = false) Long roomCode,
+      @RequestParam(required = false) String boxName,
+      @RequestParam(required = false) String inOutName,
+      @RequestParam(required = false) Long inOutHistoryCode,
+      @RequestParam(required = false) InOutType inOutType,
+      @PageableDefault Pageable pageable
   ) {
     String userName = user.getUsername();
-    Page<InOutHistoryResponse> inoutHistoryList = inOutHistoryService.findInOutHistoryList(pageable,
-        userName);
+    Page<InOutHistoryResponse> inoutHistoryList = inOutHistoryService.findInOutHistoryList(    roomCode,
+         boxName,
+        userName,
+         inOutType,
+        inOutName,
+         inOutHistoryCode, pageable);
     return ApiResponse.success(PageResponse.of(inoutHistoryList));
   }
 
   @GetMapping("/admin/inout/history")
   public ApiResponse<PageResponse<InOutHistoryAllResponse>> findInOutHistoryListAll(
+      @RequestParam(required = false) Long roomCode,
+      @RequestParam(required = false) String boxName,
+      @RequestParam(required = false) String userId,
       @PageableDefault Pageable pageable
   ) {
-    Page<InOutHistoryAllResponse> inoutHistoryList = inOutHistoryService.findInOutHistoryListAll(
-        pageable);
+    Page<InOutHistoryAllResponse> inoutHistoryList = inOutHistoryService.findInOutHistoryListAll(roomCode,
+        boxName,userId, pageable);
     return ApiResponse.success(PageResponse.of(inoutHistoryList));
   }
 }
