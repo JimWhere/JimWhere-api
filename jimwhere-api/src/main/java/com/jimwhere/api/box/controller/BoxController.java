@@ -2,9 +2,13 @@ package com.jimwhere.api.box.controller;
 
 import com.jimwhere.api.box.dto.BoxDto;
 import com.jimwhere.api.box.service.BoxService;
+import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.global.config.security.CustomUser;
 import com.jimwhere.api.global.model.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +53,12 @@ public class BoxController {
     return ResponseEntity.ok(ApiResponse.success(list));
   }
   @GetMapping("/admin/room/boxes")
-  public ResponseEntity<ApiResponse<List<BoxDto.Response>>> listBoxesByRoom() {
-    List<BoxDto.Response> list = boxService.listBoxesByRoomAll();
-    return ResponseEntity.ok(ApiResponse.success(list));
+  public ResponseEntity<ApiResponse<PageResponse<BoxDto.Response>>> listBoxesByRoom(
+      @RequestParam(required = false) Long roomCode,
+      @PageableDefault Pageable pageable
+  ) {
+    Page<BoxDto.Response> list = boxService.listBoxesByRoomAll(pageable,roomCode);
+    return ResponseEntity.ok(ApiResponse.success(PageResponse.of(list)));
   }
 
   // 방의 이용가능한 박스개수 조회

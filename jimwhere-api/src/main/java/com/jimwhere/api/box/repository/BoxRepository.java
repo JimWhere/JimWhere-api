@@ -4,6 +4,8 @@ import com.jimwhere.api.box.domain.Box;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,8 @@ public interface BoxRepository extends JpaRepository<Box, Long> {
 
     @Query("SELECT COALESCE(SUM(b.boxCurrentCount), 0) FROM Box b WHERE b.room.roomCode = :roomCode")
     Long sumBoxCurrentCountByRoomCode(@Param("roomCode") Long roomCode);
+
+    Page<Box> findAll(Pageable pageable);
+
+  Page<Box> findByRoom_RoomCode(Long roomCode, Pageable pageable);
 }
