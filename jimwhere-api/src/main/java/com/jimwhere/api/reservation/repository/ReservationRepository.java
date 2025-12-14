@@ -2,6 +2,7 @@ package com.jimwhere.api.reservation.repository;
 
 import com.jimwhere.api.reservation.domain.Reservation;
 import com.jimwhere.api.user.domain.User;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
@@ -34,5 +38,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         Long roomCode,
         LocalDateTime startAt,
         LocalDateTime endAt
+    );
+
+    // 룸의 기존 예약 내역 확인 하기 
+    @Query("SELECT r FROM Reservation r WHERE r.room.roomCode = :roomCode AND r.startAt <= :to AND r.endAt >= :from")
+    List<Reservation> findReservationsOverlappingRange(
+        @Param("roomCode") Long roomCode,
+        @Param("from") LocalDateTime from,
+        @Param("to") LocalDateTime to
     );
 }
