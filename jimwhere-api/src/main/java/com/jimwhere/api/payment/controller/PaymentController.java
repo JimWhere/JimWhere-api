@@ -26,7 +26,7 @@ public class PaymentController {
             @AuthenticationPrincipal CustomUser user
     ) {
         String username = user.getUsername();  // ← userId
-        TossInitResponse response = paymentService.initPayment(origin,username, request);
+        TossInitResponse response = paymentService.initPayment(username, request);
         return ApiResponse.success(response);
     }
 
