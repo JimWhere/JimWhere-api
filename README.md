@@ -28,7 +28,7 @@ JimWhere는 사용자가 원하는 창고/보관함을 기간제로 예약하고
 |--------|--------|--------|--------|--------|
 |<img width="150" height="150" src = "https://github.com/user-attachments/assets/7eb87cad-7554-4341-bd20-20f78e7ef2da">|<img width="150" height="150" src = "https://github.com/user-attachments/assets/699e02b7-546d-4181-a31b-71ae0502e458">|<img width="150" height="150" src = "https://github.com/user-attachments/assets/b9e64560-6418-426c-b4f3-0c4d5fa829f1">|<img width="150" height="150" src = "https://github.com/user-attachments/assets/2a199074-db5a-4ee7-a638-f322fd9843ca">|<img width="150" height="150" src = "https://github.com/user-attachments/assets/a7c3529e-983a-4233-8f26-bebd8e4784d3">|
 
-
+</div>
 
 ## 🖼️ 2. **프로젝트 개요**
 
@@ -93,6 +93,7 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
 * 관리자 알림 템플릿 CRUD
 
 <br>
+
 ## 🛠️ 5. **Tech Stack**
 
 ### Backend
