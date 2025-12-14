@@ -1,5 +1,6 @@
 package com.jimwhere.api.global.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -11,23 +12,31 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+
+    @Value("${spring.data.redis.port}")
+    private int redisPort;
+
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(
-                new RedisStandaloneConfiguration("localhost", 6379)
+                new RedisStandaloneConfiguration(redisHost, redisPort)
         );
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
+    public RedisTemplate<String, Object> redisTemplate(
+            LettuceConnectionFactory connectionFactory
+    ) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
 
-        template.setConnectionFactory(redisConnectionFactory());
+        template.setConnectionFactory(connectionFactory);
 
-         // key는 String
+        // key는 String
         template.setKeySerializer(new StringRedisSerializer());
 
-       // value는 JSON 직렬화 (EntryAuthData 저장 가능)
+        // value는 JSON 직렬화
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         return template;
