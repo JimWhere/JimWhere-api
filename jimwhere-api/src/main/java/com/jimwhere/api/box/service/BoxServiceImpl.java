@@ -10,6 +10,8 @@ import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,12 +57,15 @@ public class BoxServiceImpl implements BoxService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<BoxDto.Response> listBoxesByRoomAll() {
+  public Page<BoxDto.Response> listBoxesByRoomAll(Pageable pageable,Long roomCode) {
     // 방 존재 체크 (명확한 에러코드 사용)
-    List<Box> boxes = boxRepository.findAll();
-    return boxes.stream()
-        .map(this::toResponse)
-        .collect(Collectors.toList());
+    if (roomCode == null) {
+      Page<Box> boxes=boxRepository.findAll(pageable);
+      return boxes.map(BoxDto.Response::from);
+    }else{
+      Page<Box>boxes=boxRepository.findByRoom_RoomCode(roomCode, pageable);
+      return boxes.map(BoxDto.Response::from);
+    }
   }
 
   @Override

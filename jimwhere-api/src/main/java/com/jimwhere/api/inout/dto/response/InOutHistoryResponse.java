@@ -8,7 +8,9 @@ public record InOutHistoryResponse (
     InOutType inOutType,
     String inOutName,
     Long inOutQuantity,
-    Long roomCode
+    Long roomCode,
+    String boxName
+
 
   ) {
   public static InOutHistoryResponse from(InOutHistory inoutHistory) {
@@ -17,7 +19,8 @@ public record InOutHistoryResponse (
         inoutHistory.getInOutType(),
         inoutHistory.getInOutName(),
         inoutHistory.getInOutQuantity(),
-        inoutHistory.getAccessHistory().getRoomCode()
+        inoutHistory.getAccessHistory().getRoomCode(),
+        inoutHistory.getBox().getBoxName()
     );
   }
 }

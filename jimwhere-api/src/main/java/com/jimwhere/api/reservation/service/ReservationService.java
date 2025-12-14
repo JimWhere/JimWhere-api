@@ -1,8 +1,10 @@
 package com.jimwhere.api.reservation.service;
 
+import com.jimwhere.api.global.exception.CustomException;
 import com.jimwhere.api.global.exception.ErrorCode;
 import com.jimwhere.api.reservation.domain.Reservation;
 import com.jimwhere.api.reservation.dto.request.ReservationCreateRequest;
+import com.jimwhere.api.reservation.dto.request.ReservationRangeDto;
 import com.jimwhere.api.reservation.dto.response.AdminReservationResponse;
 import com.jimwhere.api.reservation.dto.response.DashboardReservationDto;
 import com.jimwhere.api.reservation.dto.response.ReservationResponse;
@@ -19,8 +21,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +37,29 @@ public class ReservationService {
 
 
     // USER
+    // 예약 겹침 여부 확인 메소드
+    public boolean existsOverlap(Long roomCode, LocalDateTime startAt, LocalDateTime endAt) {
+
+        // 시작일자가 끝일자보다 앞서있어야하는 유효성 검증
+        if (startAt == null || endAt == null ||
+                !startAt.isBefore(endAt)) {
+                throw new CustomException(ErrorCode.INVALID_REQUEST);
+        }
+
+        return reservationRepository
+                .existsByRoomRoomCodeAndStartAtLessThanAndEndAtGreaterThan(roomCode, endAt, startAt);
+    }
+
+    // 기존 예약 일정 확인 메소드
+    @Transactional(readOnly = true)
+    public List<ReservationRangeDto> findReservationsForRoomInRange(Long roomCode, LocalDateTime from, LocalDateTime to) {
+        List<Reservation> list = reservationRepository.findReservationsOverlappingRange(roomCode, from, to);
+        return list.stream()
+                .map(r -> new ReservationRangeDto(r.getStartAt(), r.getEndAt()))
+                .collect(Collectors.toList());
+        }
+    
+
     @Transactional
     public ReservationResponse createReservation(String username, ReservationCreateRequest request) {
 
