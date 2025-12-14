@@ -21,11 +21,12 @@ public class PaymentController {
     // 결제 준비
     @PostMapping("/init")
     public ApiResponse<TossInitResponse> initPayment(
+            @RequestHeader("Origin") String origin,
             @RequestBody TossInitRequest request,
             @AuthenticationPrincipal CustomUser user
     ) {
         String username = user.getUsername();  // ← userId
-        TossInitResponse response = paymentService.initPayment(username, request);
+        TossInitResponse response = paymentService.initPayment(origin,username, request);
         return ApiResponse.success(response);
     }
 

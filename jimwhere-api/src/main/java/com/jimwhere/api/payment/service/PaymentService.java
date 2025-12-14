@@ -31,7 +31,10 @@ public class PaymentService {
     //  결제 준비
 
     @Transactional
-    public TossInitResponse initPayment(String username,TossInitRequest request) {
+    public TossInitResponse initPayment(String origin, String username,TossInitRequest request) {
+
+        String successUrl = origin + "/payments/success";
+        String failUrl = origin + "/payments/fail";
 
         User user = userRepository.findByUserId(username)
                 .orElseThrow(() -> new IllegalArgumentException("유저 정보를 찾을 수 없습니다."));
@@ -62,8 +65,8 @@ public class PaymentService {
                 .amount(amount)
                 .orderName(orderName)
                 .clientKey(properties.getClientKey())
-                .successUrl(properties.getSuccessUrl())
-                .failUrl(properties.getFailUrl())
+                .successUrl(successUrl)
+                .failUrl(failUrl)
                 .build();
     }
 
