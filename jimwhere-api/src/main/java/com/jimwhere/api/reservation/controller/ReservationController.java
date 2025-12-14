@@ -1,11 +1,14 @@
 package com.jimwhere.api.reservation.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.jimwhere.api.global.comman.PageResponse;
 import com.jimwhere.api.global.config.security.CustomUser;
 import com.jimwhere.api.global.model.ApiResponse;
 import com.jimwhere.api.reservation.dto.request.ReservationCreateRequest;
+import com.jimwhere.api.reservation.dto.request.ReservationRangeDto;
 import com.jimwhere.api.reservation.dto.response.AdminReservationResponse;
 import com.jimwhere.api.reservation.dto.response.DashboardReservationDto;
 import com.jimwhere.api.reservation.dto.response.ReservationResponse;
@@ -17,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +32,20 @@ import java.util.List;
 public class ReservationController {
 
     private final ReservationService reservationService;
+
+    // ROOM
+    // 특정 룸의 예약현황을 반환
+    @GetMapping("/room/{roomCode}/reservations")
+    public ResponseEntity<ApiResponse<List<ReservationRangeDto>>> getReservationsForRoom(
+        @PathVariable Long roomCode,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
+    ) {
+        LocalDateTime fromAt = from.atStartOfDay();
+        LocalDateTime toAt = to.atTime(LocalTime.MAX);
+        List<ReservationRangeDto> ranges = reservationService.findReservationsForRoomInRange(roomCode, fromAt, toAt);
+        return ResponseEntity.ok(ApiResponse.success(ranges));
+    }
 
     // USER
 
