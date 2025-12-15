@@ -195,7 +195,7 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
   </details> 
 
   <details> <summary>출입</summary>
-  
+  <img width="1346" height="162" alt="image" src="https://github.com/user-attachments/assets/cc09f9d3-b837-41ba-bd8b-3c7497e1ad98" />
   </details> 
 
    <details> <summary>알림</summary>
@@ -267,7 +267,7 @@ Toss Payments `confirm`(결제 승인) API가 **간헐적으로 2번 호출**되
 
 “같은 결제건은 결과를 한 번만 반영”하도록 수정했다.
 
-### 1) 멱등 키 선정
+### 1) 멱등 키 설정
 
 - Toss 기준으로 결제 1건을 유일하게 식별할 수 있는 `paymentKey`(또는 `orderId`)를 멱등 키로 사용
 
