@@ -123,16 +123,22 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
 
 - ### 요구사항 명세서
   <details> <summary>요구사항 명세서</summary>
-    요구사항 명세서 [바로가기](https://docs.google.com/spreadsheets/d/1ZJ-VvwojNntdTJuB8xYLUpwb5sDpQdYNS2v0t6UabYk/edit?usp=sharing)<br>
-
+    요구사항 명세서 [바로가기](https://docs.google.com/spreadsheets/d/1ZJ-VvwojNntdTJuB8xYLUpwb5sDpQdYNS2v0t6UabYk/edit?usp=sharing)
     
-    </details> 
+    <img width="1399" height="579" alt="image" src="https://github.com/user-attachments/assets/a0ced6dc-7f6a-4bbd-aaff-2275bb18dc14" />
+    <img width="1399" height="453" alt="image" src="https://github.com/user-attachments/assets/3a6c9d9e-4fa7-4156-878e-1ecbb21677be" />
+<br>
+
+
+  </details> 
     
 - ### ERD
   <details> <summary>ERD</summary>
-    ERD [바로가기](https://www.erdcloud.com/d/DzLxPEyKdLQzbJgxG)<br>
+    ERD [바로가기](https://www.erdcloud.com/d/DzLxPEyKdLQzbJgxG)
+    <img width="1410" height="800" alt="image" src="https://github.com/user-attachments/assets/625b940c-ff1b-4cec-a857-f0371165d101" />
+<br>
   
-    </details> 
+  </details> 
 
 - ### 화면 설계서
   <details> <summary>화면 설계서</summary>
@@ -142,19 +148,19 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
 
 - ### 기능 수행 Test 결과
   <details> <summary>회원</summary>
-  
+  <img width="1367" height="290" alt="image" src="https://github.com/user-attachments/assets/a178c685-8089-4c8a-8baa-3811a3bbbdcb" />
     </details> 
 
     <details> <summary>예약, 결제</summary>
-  
+    <img width="1370" height="148" alt="image" src="https://github.com/user-attachments/assets/f971838a-6079-4f36-8dad-7761b5bca134" />
     </details> 
 
     <details> <summary>게시판</summary>
-
+    <img width="1370" height="197" alt="image" src="https://github.com/user-attachments/assets/eaf6c442-b8db-4caf-a54e-8c74e2401693" />
     </details> 
 
     <details> <summary>룸</summary>
-  
+    <img width="1367" height="375" alt="image" src="https://github.com/user-attachments/assets/dfbaa3b9-f6e4-4a9c-9d71-af7fe2bdcdc9" />
     </details> 
 
     <details> <summary>출입</summary>
@@ -162,7 +168,7 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
     </details> 
 
     <details> <summary>알림</summary>
-
+    <img width="1365" height="434" alt="image" src="https://github.com/user-attachments/assets/5d77770d-4cc3-434a-9930-2532924ec670" />
     </details> 
 
 - ### 아키텍처 구조도
@@ -181,7 +187,15 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
     </details> 
 <br>
 
-## 😒 5. 회고
+## 👨‍👩‍👧‍👦 5. 팀원 회고
+
+| 이름 | 회고 |
+|------|------|
+| 신광운 |  |
+| 김성태 | Toss Payments 연동은 처음에는 단순히 외부 API를 호출해 결제를 처리하는 작업이라고 생각했습니다. 그러나 실제 구현 과정에서 이는 단순한 API 연동이 아니라, 외부 결제 시스템과 내부 도메인을 어떻게 신뢰성 있게 연결할 것인가에 대한 설계 문제라는 점을 깨닫게 되었습니다.결제 영역은 실패가 발생해서도 안 되고, 결제가 성공했음에도 불구하고 데이터베이스에 기록되지 않는 상황이나 중복 결제가 발생하는 문제 역시 허용될 수 없는 영역이었습니다. 이러한 요구사항을 충족하기 위해 트랜잭션 관리, 결제 상태 기준의 데이터 저장 구조, 중복 요청 방지 등 백엔드 전반의 설계를 다시 고민하게 되었습니다. 이 과정을 통해 단순히 기능을 구현하는 것을 넘어, 안정성과 일관성을 보장하는 백엔드 설계의 중요성을 깊이 체감할 수 있었던 경험이었습니다. |
+| 김상재 |  |
+| 김성현 |  |
+| 박인수 |  |
 
 
 ## ⚠️ 6. Trouble Shooting
