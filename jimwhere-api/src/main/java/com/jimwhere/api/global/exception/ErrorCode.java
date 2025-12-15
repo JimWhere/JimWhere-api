@@ -24,11 +24,15 @@ public enum ErrorCode {
 
     INVALID_OR_EXPIRED_QR("2000", "만료된 QR 정보입니다", HttpStatus.BAD_REQUEST),
 
+
+
+    BOX_NOT_FOUND("5001", "잘못된 박스 ID입니다", HttpStatus.NOT_FOUND),
     INOUT_HISTORY_NOT_FOUND("5002", "입출고 기록을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     ACCESS_HISTORY_NOT_FOUND("5003", "출입 기록을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    INQUIRY_NOT_FOUND("5004", "문의를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    NOTICE_NOT_FOUND("5003", "공지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    BOX_NOT_FOUND("5001", "잘못된 박스 ID입니다", HttpStatus.NOT_FOUND),
+  INQUIRY_NOT_FOUND("5004", "문의를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  NOTICE_NOT_FOUND("5005", "공지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+  ACCESS_HISTORY_RESULT_NOT_Y("5006", "실제 입출력이 일어나지 않았습니다.", HttpStatus.BAD_REQUEST),
+  INVALID_BOX_COUNT("5007", "박스 수를 넘어가는 재고 입니다", HttpStatus.BAD_REQUEST),
 
     ROOM_ALREADY_EXISTS("3000", "이미 존재하는 방 이름입니다.", HttpStatus.BAD_REQUEST),
     ROOM_NOT_FOUND("3001", "해당 방을 찾을수 없습니다.", HttpStatus.BAD_REQUEST),

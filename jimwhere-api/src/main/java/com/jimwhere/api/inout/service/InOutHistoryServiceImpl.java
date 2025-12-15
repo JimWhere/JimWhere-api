@@ -1,6 +1,8 @@
 package com.jimwhere.api.inout.service;
 
 
+import com.jimwhere.api.access.domain.AccessHistory;
+import com.jimwhere.api.access.domain.AccessResult;
 import com.jimwhere.api.box.domain.Box;
 import com.jimwhere.api.box.repository.BoxRepository;
 import com.jimwhere.api.global.exception.CustomException;
@@ -29,22 +31,85 @@ public class InOutHistoryServiceImpl implements InOutHistoryService {
   @Override
   @Transactional
   public String updateInOutHistory(Long inOutHistoryCode, UpdateInOutHistoryRequest request) {
-    InOutHistory inOutHistory=inOutHistoryRepository.findById(inOutHistoryCode)
-        .orElseThrow(()-> new CustomException(ErrorCode.INOUT_HISTORY_NOT_FOUND));
-    Long boxCode=inOutHistory.getBox().getBoxCode();
-    Box box= boxRepository.findById(boxCode).orElseThrow(()-> new CustomException(ErrorCode.BOX_NOT_FOUND));
+    InOutHistory inOutHistory = inOutHistoryRepository.findById(inOutHistoryCode)
+        .orElseThrow(() -> new CustomException(ErrorCode.INOUT_HISTORY_NOT_FOUND));
 
-    if(request.getInOutType()== InOutType.IN&& request.getInOutName().equals(box.getBoxContent())){
-      box.addCurrentCount(request.getInOutQuantity());
-    }else if(request.getInOutType()== InOutType.OUT&& request.getInOutName().equals(box.getBoxContent())){
-      box.subtractCurrentCount(request.getInOutQuantity());
-    }else if(request.getInOutType()== InOutType.IN){
-      box.updateBoxContentCount(request.getInOutName(), request.getInOutQuantity());
+    Long boxCode = inOutHistory.getBox().getBoxCode();
+    Long inOutQuantity = inOutHistory.getInOutQuantity();
+    Long updateInOutQuantity = request.getInOutQuantity();
+    Long result = Math.abs(inOutQuantity - updateInOutQuantity);
+
+    AccessHistory accessHistory = inOutHistory.getAccessHistory();
+    if (AccessResult.N.equals(accessHistory.getAccessResult())) {
+      throw new CustomException(ErrorCode.ACCESS_HISTORY_RESULT_NOT_Y);
     }
-    else {throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT,"출고할 물품이 없습니다.");}
-    inOutHistory.updateInOutHistory(request.getInOutType(),request.getInOutName(),request.getInOutQuantity());
+
+    Box box = boxRepository.findById(boxCode)
+        .orElseThrow(() -> new CustomException(ErrorCode.BOX_NOT_FOUND));
+
+    if (!inOutHistory.getInOutType().equals(request.getInOutType())) {
+
+
+      if (request.getInOutType() == InOutType.IN && request.getInOutName().equals(box.getBoxContent())) {
+        box.addCurrentCount(inOutQuantity + updateInOutQuantity);
+
+      } else if (request.getInOutType() == InOutType.OUT && request.getInOutName().equals(box.getBoxContent())) {
+        long need = inOutQuantity + updateInOutQuantity;
+        if (box.getBoxCurrentCount() < need) {
+          throw new CustomException(ErrorCode.INVALID_BOX_COUNT);
+        }
+        box.subtractCurrentCount(need);
+
+      } else if (request.getInOutType() == InOutType.IN) {
+        box.updateBoxContentCount(request.getInOutName(), request.getInOutQuantity());
+
+      } else {
+        throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT, "출고할 물품이 없습니다.");
+      }
+    }
+
+
+    else {
+
+      if (request.getInOutType() == InOutType.IN && request.getInOutName().equals(box.getBoxContent())) {
+        if (inOutQuantity < updateInOutQuantity) {
+          box.addCurrentCount(result);
+        } else {
+          if (box.getBoxCurrentCount() < result) {
+            throw new CustomException(ErrorCode.INVALID_BOX_COUNT);
+          }
+          box.subtractCurrentCount(result);
+        }
+
+
+      } else if (request.getInOutType() == InOutType.OUT && request.getInOutName().equals(box.getBoxContent())) {
+        if (inOutQuantity >= updateInOutQuantity) {
+
+          box.addCurrentCount(result);
+        } else {
+
+          if (box.getBoxCurrentCount() < result) {
+            throw new CustomException(ErrorCode.INVALID_BOX_COUNT);
+          }
+          box.subtractCurrentCount(result);
+        }
+
+      } else if (request.getInOutType() == InOutType.IN) {
+        box.updateBoxContentCount(request.getInOutName(), request.getInOutQuantity());
+      } else {
+        throw new CustomException(ErrorCode.INVALID_INPUT_FORMAT, "출고할 물품이 없습니다.");
+      }
+    }
+
+    inOutHistory.updateInOutHistory(
+        request.getInOutType(),
+        request.getInOutName(),
+        request.getInOutQuantity()
+    );
+
     return "재고 사항 수정";
   }
+
 
   @Override
   public Page<InOutHistoryResponse> findInOutHistoryList(      Long roomCode,
