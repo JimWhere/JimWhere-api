@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServerCheckController {
 
     @GetMapping("/")
-
     public String home() {
         return "짐웨어 정상작동";
     }
