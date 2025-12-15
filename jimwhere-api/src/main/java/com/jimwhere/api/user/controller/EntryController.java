@@ -5,13 +5,15 @@ import com.jimwhere.api.user.dto.reqeust.QrVerifyRequest;
 import com.jimwhere.api.user.dto.response.QrVerifyResponse;
 import com.jimwhere.api.user.service.EntryAuthService;
 import com.jimwhere.api.user.service.EntryQrService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 
-
+@Tag(name="출입 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/entry")
@@ -21,6 +23,9 @@ public class EntryController {
     private final EntryQrService entryQrService;
 
     // QR 인증
+    @Operation(
+        summary = "QR인증", description = "유저의 QR인증을 검증하는 api"
+    )
     @PostMapping("/verify")
     public ResponseEntity<ApiResponse<QrVerifyResponse>> verifyQr(@RequestBody QrVerifyRequest req) {
         /*QrVerifyResponse response = entryAuthService.verify(req);*/
@@ -29,6 +34,9 @@ public class EntryController {
     }
 
     // QR 미리보기 (브라우저에서 바로 보여주기)
+    @Operation(
+        summary = "QR미리보기", description = "유저가 QR을 브라우저에서 바로 보여주는 api "
+    )
     @GetMapping(value = "/preview/{accessHistoryId}", produces = "text/html")
     public String previewQr(@PathVariable Long accessHistoryId) throws Exception {
 
