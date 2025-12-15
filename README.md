@@ -173,13 +173,9 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
 
 - ### 아키텍처 구조도
   <details> <summary>아키텍처 구조도</summary>
-  
+  <img width="999" height="797" alt="image" src="https://github.com/user-attachments/assets/18072f38-4521-4f2b-9e34-0c63aacf811f" />
     </details> 
 
-- ### CI/CD 테스트 결과
-  <details> <summary>CI/CD 테스트 결과</summary>
-  
-    </details> 
 
 - ### API 명세서
   <details> <summary>API 명세서</summary>
