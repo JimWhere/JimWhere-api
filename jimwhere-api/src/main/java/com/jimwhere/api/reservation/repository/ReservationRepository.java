@@ -1,6 +1,7 @@
 package com.jimwhere.api.reservation.repository;
 
 import com.jimwhere.api.reservation.domain.Reservation;
+import com.jimwhere.api.room.domain.Room;
 import com.jimwhere.api.user.domain.User;
 
 import org.springframework.data.domain.Page;
@@ -39,6 +40,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         LocalDateTime startAt,
         LocalDateTime endAt
     );
+
+    Optional<Reservation> findByUserAndRoomAndStartAtAndEndAt(User user, Room room, LocalDateTime startAt, LocalDateTime endAt);
+
 
     // 룸의 기존 예약 내역 확인 하기 
     @Query("SELECT r FROM Reservation r WHERE r.room.roomCode = :roomCode AND r.startAt <= :to AND r.endAt >= :from")

@@ -62,25 +62,25 @@ public class ReservationService {
 
     @Transactional
     public ReservationResponse createReservation(String username, ReservationCreateRequest request) {
-
-        // username 기준으로 User 조회
         User user = userRepository.findByUserId(username)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.INVALID_USER_ID.getMessage()));
 
         Room room = roomRepository.findById(request.getRoomCode())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.INVALID_REQUEST.getMessage()));
 
-        Reservation reservation = Reservation.create(
-                user,
-                room,
-                request.getStartAt(),
-                request.getEndAt(),
-                request.getReservationAmount()
-        );
-
-        reservationRepository.save(reservation);
-        return ReservationResponse.from(reservation);
+        // 멱등성: 동일 요청이면 기존 예약 반환
+        return reservationRepository
+                .findByUserAndRoomAndStartAtAndEndAt(user, room, request.getStartAt(), request.getEndAt())
+                .map(ReservationResponse::from)
+                .orElseGet(() -> {
+                    Reservation reservation = Reservation.create(
+                            user, room, request.getStartAt(), request.getEndAt(), request.getReservationAmount()
+                    );
+                    reservationRepository.save(reservation);
+                    return ReservationResponse.from(reservation);
+                });
     }
+
 
     public Page<ReservationResponse> getMyReservations(String username, Pageable pageable) {
         User user = userRepository.findByUserId(username)
