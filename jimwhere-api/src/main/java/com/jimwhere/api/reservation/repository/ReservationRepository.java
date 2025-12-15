@@ -31,7 +31,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     /* 내일 입주 예정 예약 찾기 (MOVE_IN_DUE) */
     List<Reservation> findByStartAtBetween(LocalDateTime start, LocalDateTime end);
 
-    /* 3일 뒤 만기인 예약 찾기 (EXPIRATION_D3) */
+    /* 3일 뒤 만기 예약 찾기 (EXPIRATION_D3) */
     List<Reservation> findByEndAtBetween(LocalDateTime start, LocalDateTime end);
 
     // 특정날짜기간동안 예약 존재하는지 확인 하기
