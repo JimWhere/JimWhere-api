@@ -17,7 +17,7 @@ JimWhere는 사용자가 원하는 창고/보관함을 기간제로 예약하고
 2. [🖼️ 프로젝트 개요](#️-2-프로젝트-개요)  
 3. [🚀 주요 기능 요약](#-3-주요-기능-요약)  
 4. [🗂️ 프로젝트 산출물](#️-4-프로젝트-산출물)
-5. [😒 회고록](#️-5-회고록)
+5. [👨‍👩‍👧‍👦 팀원 회고](#️-5-회고록)
 6. [⚠️ Trouble Shooting](#️-5-trouble-shooting)  
 
 ## 👩‍👧‍👦 1. 멤버 소개
@@ -32,14 +32,14 @@ JimWhere는 사용자가 원하는 창고/보관함을 기간제로 예약하고
 
 ## 🖼️ 2. **프로젝트 개요**
 
-JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**하고,
-**Toss Payments 결제를 통해 안전하게 결제 및 관리**할 수 있는 플랫폼입니다.
+JimWhere는 사용자가 필요에 맞는 창고 및 보관함 공간을 선택하고, 원하는 기간 동안 예약하여 이용할 수 있는 공간 대여 플랫폼입니다. 단순한 공간 선택을 넘어, 실제 이용 흐름을 고려한 예약 관리와 사용자·관리자 기능을 함께 제공하는 것을 목표로 설계되었습니다.
 
-또한 이용자는
-✔ 문의 등록
-✔ 공지사항 조회
-✔ 예약·결제 내역 관리
-까지 통합적으로 경험할 수 있습니다.
+사용자는 공간 유형과 위치, 이용 기간을 기준으로 보관 공간을 선택하고 예약을 생성할 수 있으며, 예약 정보는 기간 기반으로 관리되어 중복 예약을 방지합니다. 또한 결제가 완료된 예약만 실제 이용 내역으로 확정되도록 하여, 서비스 운영 관점에서의 데이터 일관성과 신뢰성을 확보했습니다.
+
+관리자 입장에서는 전체 예약 현황과 이용 기간을 한눈에 파악하고, 결제 완료된 예약을 기준으로 공간 운영 및 관리가 가능하도록 구성되어 있습니다. 이를 통해 실제 서비스 환경에서 필요한 운영 효율성과 관리 편의성을 고려한 구조를 구현했습니다.
+
+JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분리하여 설계되었으며, 향후 기능 확장과 유지보수를 고려한 구조를 기반으로 한 공간 대여 서비스입니다.
+
 <br>
 
 
@@ -73,12 +73,14 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
 ### 📄 **문의( Inquiry ) / 공지( Notice )**
 
 #### 문의 (Inquiry)
+
 * 문의 작성
 * 문의 목록 조회
 * 문의 상세 조회
 * 관리자 답변 등록
 
 #### 공지사항 (Notice)
+
 * 공지 등록 / 수정 / 삭제
 * 공지 목록 조회
 * 공지 상세 조회
@@ -86,7 +88,6 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
 
 ### 🔔 **알림(Alarm)**
 
-* 알림 (Alarm)
 * 알림 템플릿 기반 자동 발송
 * 이벤트 발생 시 DB 알림 저장
 * 회원 알림 목록 조회 / 삭제
@@ -176,14 +177,19 @@ JimWhere는 사용자가 원하는 **창고/보관함을 기간제로 예약**�
   
     </details> 
 
-- ### CI/CD 테스트 결과
-  <details> <summary>CI/CD 테스트 결과</summary>
-  
-    </details> 
 
 - ### API 명세서
   <details> <summary>API 명세서</summary>
-  
+  <img width="916" height="522" alt="image" src="https://github.com/user-attachments/assets/bab19eb7-84e8-41ba-b4da-4bb487d7b0fb" />
+
+  <img width="923" height="480" alt="image" src="https://github.com/user-attachments/assets/710dde45-9583-45b2-8cb0-4670e2f3f153" />
+  <img width="916" height="555" alt="image" src="https://github.com/user-attachments/assets/90349ced-f4dd-4bba-afc8-dc550ca37339" />
+  <img width="913" height="531" alt="image" src="https://github.com/user-attachments/assets/13108329-ed9e-4314-9cb2-95dba953cedd" />
+  <img width="910" height="551" alt="image" src="https://github.com/user-attachments/assets/079ae45e-bdea-4a30-8475-f6f8fcccc346" />
+  <img width="909" height="556" alt="image" src="https://github.com/user-attachments/assets/f508777d-aee4-4094-8f88-726a44bb7a5a" />
+  <img width="915" height="516" alt="image" src="https://github.com/user-attachments/assets/92b2aa74-ee10-42cb-b5d6-80a761f57908" />
+
+
     </details> 
 <br>
 
