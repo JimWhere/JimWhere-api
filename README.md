@@ -15,10 +15,11 @@ JimWhere는 사용자가 원하는 창고/보관함을 기간제로 예약하고
 
 1. [👩‍👧‍👦 멤버 소개](#-1-멤버-소개)  
 2. [🖼️ 프로젝트 개요](#️-2-프로젝트-개요)  
-3. [🚀 주요 기능 요약](#-3-주요-기능-요약)  
-4. [🗂️ 프로젝트 산출물](#️-4-프로젝트-산출물)
-5. [👨‍👩‍👧‍👦 팀원 회고](#️-5-회고록)
-6. [⚠️ Trouble Shooting](#️-5-trouble-shooting)  
+3. [🚀 주요 기능 요약](#-3-주요-기능-요약)
+4. [🛠️ Tech Stack](#-4-Tech-Stack)
+5. [🗂️ 프로젝트 산출물](#️-5-프로젝트-산출물)
+6. [👨‍👩‍👧‍👦 팀원 회고](#️-6-회고록)
+7. [⚠️ Trouble Shooting](#️-7-trouble-shooting)  
 
 ## 👩‍👧‍👦 1. 멤버 소개
 
@@ -95,7 +96,7 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
 
 <br>
 
-## 🛠️ 5. **Tech Stack**
+## 🛠️ 4. **Tech Stack**
 
 #Database
 <br>
@@ -138,7 +139,7 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
 <br/>
 <br>
 
-## 📂 4. **프로젝트 산출물**
+## 📂 5. **프로젝트 산출물**
 
 - ### WBS
   <details> <summary>WBS</summary>
@@ -167,33 +168,38 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
 - ### 화면 설계서
   <details> <summary>화면 설계서</summary>
   화면 설계서 [바로가기] https://www.figma.com/design/n3rEnWyHXGEpve9oCY5dq7/JimWhere?node-id=0-1&p=f&t=kChlrvnGykNybOwg-0
-  
+  <br>
+    
     </details> 
 
 - ### 기능 수행 Test 결과
+ <details> <summary>Gif</summary>
+ [Gif 바로가기] https://drive.google.com/drive/folders/1HEsphdBVxdS50hcehUlygpUoegGlsOEm
+   </details> 
+ 
   <details> <summary>회원</summary>
   <img width="1367" height="290" alt="image" src="https://github.com/user-attachments/assets/a178c685-8089-4c8a-8baa-3811a3bbbdcb" />
     </details> 
 
-    <details> <summary>예약, 결제</summary>
-    <img width="1370" height="148" alt="image" src="https://github.com/user-attachments/assets/f971838a-6079-4f36-8dad-7761b5bca134" />
-    </details> 
+  <details> <summary>예약, 결제</summary>
+  <img width="1370" height="148" alt="image" src="https://github.com/user-attachments/assets/f971838a-    6079-4f36-8dad-7761b5bca134" />
+  </details> 
 
-    <details> <summary>게시판</summary>
-    <img width="1370" height="197" alt="image" src="https://github.com/user-attachments/assets/eaf6c442-b8db-4caf-a54e-8c74e2401693" />
-    </details> 
+  <details> <summary>게시판</summary>
+  <img width="1370" height="197" alt="image" src="https://github.com/user-attachments/assets/eaf6c442-b8db-4caf-a54e-8c74e2401693" />
+  </details> 
 
-    <details> <summary>룸</summary>
+  <details> <summary>룸</summary>
     <img width="1367" height="375" alt="image" src="https://github.com/user-attachments/assets/dfbaa3b9-f6e4-4a9c-9d71-af7fe2bdcdc9" />
-    </details> 
+  </details> 
 
-    <details> <summary>출입</summary>
+  <details> <summary>출입</summary>
   
-    </details> 
+  </details> 
 
-    <details> <summary>알림</summary>
-    <img width="1365" height="434" alt="image" src="https://github.com/user-attachments/assets/5d77770d-4cc3-434a-9930-2532924ec670" />
-    </details> 
+   <details> <summary>알림</summary>
+  <img width="1365" height="434" alt="image" src="https://github.com/user-attachments/assets/5d77770d-4cc3-434a-9930-2532924ec670" />
+   </details> 
 
 - ### 아키텍처 구조도
   <details> <summary>아키텍처 구조도</summary>
@@ -216,7 +222,7 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
     </details> 
 <br>
 
-## 👨‍👩‍👧‍👦 5. 팀원 회고
+## 👨‍👩‍👧‍👦 6. 팀원 회고
 
 | 이름 | 회고 |
 |------|------|
@@ -227,7 +233,7 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
 | 박인수 |  |
 
 
-## ⚠️ 6. Trouble Shooting
-  <details> <summary>트러블 슈튕</summary>
+## ⚠️ 7. Trouble Shooting
+  <details> <summary>트러블 슈팅</summary>
   
   </details> 
