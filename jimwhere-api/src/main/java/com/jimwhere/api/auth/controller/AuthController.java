@@ -12,6 +12,8 @@ import com.jimwhere.api.user.domain.User;
 import com.jimwhere.api.auth.dto.UserCreateRequest;
 import com.jimwhere.api.user.domain.UserStatus;
 import com.jimwhere.api.user.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
+@Tag(name="인증 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -39,6 +41,9 @@ public class AuthController {
     private static final String COOKIE_NAME = "refreshToken";
     private final long REFRESH_TOKEN_EXPIRE = 1000 * 60 * 60; // 1시간
 
+  @Operation(
+      summary = "회원가입", description = "유저가 회원가입 요청을 하는 api "
+  )
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<String>> registUser(@Valid @RequestBody UserCreateRequest request){
 
@@ -47,7 +52,9 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("회원가입 완료!"));
     }
 
-
+  @Operation(
+      summary = "유저 로그인", description = "유저가 로그인하는 api"
+  )
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<TokenResponse>> login(
             @RequestBody LoginRequest request
@@ -99,7 +106,9 @@ public class AuthController {
 
 
 
-
+  @Operation(
+      summary = "유저 로그아웃 ", description = "로그인된 유저가 로그아웃하는 api"
+  )
     @DeleteMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -126,7 +135,9 @@ public class AuthController {
                 .body(ApiResponse.success(null));
     }
 
-
+  @Operation(
+      summary = "토큰 재발급", description = "토큰을 재발급해주는 api"
+  )
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<TokenResponse>> refreshToken(
             @CookieValue(name = COOKIE_NAME, required = false) String refreshToken
@@ -174,6 +185,9 @@ public class AuthController {
 
 
     // 아이디 중복체크 1차검증
+    @Operation(
+        summary = "아이디 중복체크 1차검증", description = "유저가 입력한 아이디를 중복체크하는 api"
+    )
     @PostMapping("/check-duplicate-id")
     public ResponseEntity<ApiResponse<Boolean>> checkDuplicateId(@RequestBody Map<String, String> request) {
 
@@ -184,6 +198,9 @@ public class AuthController {
     }
 
     // 전화번호 중복체크 1차검증
+    @Operation(
+        summary = "전화번호 중복체크 1차검증 ", description = "유저가 전화번호를  중복체크하는 api"
+    )
     @PostMapping("/check-duplicate-phone")
     public ResponseEntity<ApiResponse<Boolean>> checkDuplicatePhone(@RequestBody Map<String, String> request) {
         String phone = request.get("phone");
@@ -194,6 +211,9 @@ public class AuthController {
     }
 
     // 사업자번호 중복체크 1차검증
+    @Operation(
+        summary = "사업자번호 중복체크 1차 검증", description = "사업자번호를 중복체크하는 api"
+    )
     @PostMapping("/check-duplicate-business")
     public ResponseEntity<ApiResponse<Boolean>> checkDuplicateBusiness(@RequestBody Map<String, String> request) {
 

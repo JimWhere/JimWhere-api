@@ -45,6 +45,7 @@ public interface InOutHistoryRepository extends JpaRepository<InOutHistory, Long
     (:roomCode IS NULL OR ah.roomCode = :roomCode)
     AND (:boxName IS NULL OR b.boxName LIKE %:boxName%)
     AND u.userCode = :userCode
+    AND ah.accessResult='Y'
     AND (:inOutType IS NULL OR ih.inOutType = :inOutType)
     AND (:inOutName IS NULL OR ih.inOutName LIKE %:inOutName%)
     AND (:inOutHistoryCode IS NULL OR ih.inOutHistoryCode = :inOutHistoryCode)
@@ -78,6 +79,7 @@ public interface InOutHistoryRepository extends JpaRepository<InOutHistory, Long
     JOIN ih.box b
   WHERE
     (:roomCode IS NULL OR ah.roomCode = :roomCode)
+    AND ah.accessResult='Y'
     AND (:boxName IS NULL OR b.boxName LIKE %:boxName%)
     AND (:userId IS NULL OR u.userId LIKE %:userId%)
 """)
