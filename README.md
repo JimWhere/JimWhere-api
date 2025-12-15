@@ -197,7 +197,7 @@ JimWhere는 예약, 결제, 사용자 관리, 관리자 기능을 명확히 분�
 
 - ### 아키텍처 구조도
   <details> <summary>아키텍처 구조도</summary>
-  
+  <img width="999" height="797" alt="image" src="https://github.com/user-attachments/assets/18072f38-4521-4f2b-9e34-0c63aacf811f" />
     </details> 
 
 
